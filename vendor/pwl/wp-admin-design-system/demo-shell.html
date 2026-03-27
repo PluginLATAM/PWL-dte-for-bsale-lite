@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Shell — WP Admin Design System</title>
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <style>
+        /* Simulate WP admin body */
+        body { margin: 0; background: #F0EDE8; }
+        /* Fake WP admin bar */
+        .wp-bar {
+            height: 32px;
+            background: #1A1714;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            gap: 24px;
+        }
+        .wp-bar span { font-family: sans-serif; font-size: 13px; color: #9A9088; }
+        .wp-bar span:first-child { color: #C8A45A; font-weight: 600; }
+        /* Fake WP sidebar */
+        .wp-sidebar {
+            position: fixed;
+            top: 32px;
+            left: 0;
+            width: 160px;
+            bottom: 0;
+            background: #2C2A28;
+            z-index: 100;
+        }
+        /* Push content right */
+        #wpcontent {
+            margin-left: 160px;
+            margin-top: 32px;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Simulated WP chrome -->
+<div class="wp-bar">
+    <span>&#9632; WordPress</span>
+    <span>Dashboard</span>
+    <span>Posts</span>
+    <span>Plugins</span>
+</div>
+<div class="wp-sidebar"></div>
+
+<!-- WP content area -->
+<div id="wpcontent">
+
+    <div class="wads wads-app-shell">
+
+        <!-- ── SIDEBAR ───────────────────────────────────────────── -->
+        <aside class="wads-sidebar">
+
+            <div class="wads-sidebar__brand">
+                <span class="wads-sidebar__plugin-name">Bsale DTE</span>
+                <span class="wads-sidebar__plugin-version">v1.2.0 · Pro</span>
+            </div>
+
+            <nav class="wads-sidebar__nav">
+
+                <div class="wads-nav-group">
+                    <span class="wads-nav-label">Documents</span>
+                    <a class="wads-nav-item is-active" href="#">DTE List</a>
+                    <a class="wads-nav-item" href="#">
+                        Pending Retry
+                        <span class="wads-nav-item__end">
+                            <span class="wads-badge wads-badge--solid-danger" style="font-size:9px;padding:2px 5px">4</span>
+                        </span>
+                    </a>
+                    <a class="wads-nav-item" href="#">Credit Notes</a>
+                </div>
+
+                <div class="wads-nav-group">
+                    <span class="wads-nav-label">Stock</span>
+                    <a class="wads-nav-item" href="#">Manual Sync</a>
+                    <a class="wads-nav-item" href="#">
+                        Auto Sync
+                        <span class="wads-nav-item__end">
+                            <span class="wads-badge wads-badge--solid-accent">Pro</span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="wads-nav-group">
+                    <span class="wads-nav-label">Settings</span>
+                    <a class="wads-nav-item" href="#">API & Connection</a>
+                    <a class="wads-nav-item" href="#">Document Types</a>
+                    <a class="wads-nav-item" href="#">Offices</a>
+                    <a class="wads-nav-item" href="#">
+                        Webhooks
+                        <span class="wads-nav-item__end">
+                            <span class="wads-badge wads-badge--solid-accent">Pro</span>
+                        </span>
+                    </a>
+                </div>
+
+                <div class="wads-nav-group">
+                    <span class="wads-nav-label">Debug</span>
+                    <a class="wads-nav-item" href="#">Logs</a>
+                    <a class="wads-nav-item" href="#">Webhook Events</a>
+                </div>
+
+            </nav>
+
+            <div class="wads-sidebar__footer">
+                <a class="wads-sidebar__footer-link" href="#">Documentation</a>
+                <a class="wads-sidebar__footer-link" href="#">Support</a>
+            </div>
+
+        </aside>
+
+        <!-- ── MAIN ──────────────────────────────────────────────── -->
+        <main class="wads-main">
+
+            <!-- Topbar (optional) -->
+            <div class="wads-topbar">
+                <nav class="wads-breadcrumbs" style="margin:0">
+                    <span class="wads-breadcrumbs__item">
+                        <a class="wads-breadcrumbs__link" href="#">Bsale DTE</a>
+                        <span class="wads-breadcrumbs__sep">/</span>
+                    </span>
+                    <span class="wads-breadcrumbs__item">
+                        <span class="wads-breadcrumbs__current">DTE List</span>
+                    </span>
+                </nav>
+                <div class="wads-cluster">
+                    <span class="wads-text-muted wads-text-sm">Last sync: 2 min ago</span>
+                    <button class="wads-btn wads-btn--secondary wads-btn--sm">Sync Stock</button>
+                </div>
+            </div>
+
+            <!-- Page header -->
+            <div class="wads-page-header">
+                <div class="wads-page-header__content">
+                    <h1 class="wads-page-header__title">DTE List <span class="wads-badge wads-badge--solid-accent" style="font-size:11px;vertical-align:middle">Pro</span></h1>
+                    <p class="wads-page-header__desc">All electronic documents generated from WooCommerce orders.</p>
+                </div>
+                <div class="wads-page-header__actions">
+                    <div class="wads-search">
+                        <span class="wads-search__icon">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                        </span>
+                        <input class="wads-search__input" type="search" placeholder="Search by order or folio…">
+                    </div>
+                    <button class="wads-btn wads-btn--primary wads-btn--sm">Export CSV</button>
+                </div>
+            </div>
+
+            <!-- Stats row -->
+            <div class="wads-grid wads-grid--4" style="margin-bottom:24px">
+                <div class="wads-stat">
+                    <span class="wads-stat__label">Total Issued</span>
+                    <span class="wads-stat__value">1,284</span>
+                    <span class="wads-stat__change wads-stat__change--up">+12% this month</span>
+                </div>
+                <div class="wads-stat">
+                    <span class="wads-stat__label">Pending Retry</span>
+                    <span class="wads-stat__value">4</span>
+                    <span class="wads-stat__change">Next attempt in 15 min</span>
+                </div>
+                <div class="wads-stat">
+                    <span class="wads-stat__label">Success Rate</span>
+                    <span class="wads-stat__value">99.3%</span>
+                    <span class="wads-stat__change wads-stat__change--up">All time</span>
+                </div>
+                <div class="wads-stat">
+                    <span class="wads-stat__label">Credit Notes</span>
+                    <span class="wads-stat__value">18</span>
+                    <span class="wads-stat__change">This month</span>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="wads-between" style="margin-bottom:16px">
+                <div class="wads-chips">
+                    <span class="wads-chip wads-chip--accent">All</span>
+                    <span class="wads-chip">Boleta</span>
+                    <span class="wads-chip">Factura</span>
+                    <span class="wads-chip">Credit Note</span>
+                    <span class="wads-chip wads-chip--danger">Failed <button class="wads-chip__remove">&times;</button></span>
+                </div>
+                <span class="wads-muted">1,284 documents</span>
+            </div>
+
+            <!-- Table -->
+            <div class="wads-table-wrap">
+                <table class="wads-table">
+                    <thead>
+                        <tr>
+                            <th>Order</th>
+                            <th>Folio</th>
+                            <th>Type</th>
+                            <th>Customer</th>
+                            <th>Status</th>
+                            <th>Attempts</th>
+                            <th>Date</th>
+                            <th class="text-right">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>#1058</strong></td>
+                            <td><code>3425</code></td>
+                            <td>Boleta</td>
+                            <td>María González</td>
+                            <td><span class="wads-badge wads-badge--dot wads-badge--success">Issued</span></td>
+                            <td>1</td>
+                            <td class="wads-muted wads-text-sm">2026-03-16</td>
+                            <td class="text-right">
+                                <div class="wads-cluster" style="justify-content:flex-end;gap:4px">
+                                    <button class="wads-btn wads-btn--ghost wads-btn--sm">PDF</button>
+                                    <div class="wads-dropdown">
+                                        <button class="wads-btn wads-btn--ghost wads-btn--sm" data-wads-dropdown>···</button>
+                                        <div class="wads-dropdown__menu wads-dropdown__menu--right">
+                                            <a class="wads-dropdown__item" href="#">View in Bsale</a>
+                                            <a class="wads-dropdown__item" href="#">Copy public URL</a>
+                                            <div class="wads-dropdown__divider"></div>
+                                            <a class="wads-dropdown__item wads-dropdown__item--danger" href="#">Void document</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#1057</strong></td>
+                            <td><code>3424</code></td>
+                            <td>Factura</td>
+                            <td>Constructora Norte SpA</td>
+                            <td><span class="wads-badge wads-badge--dot wads-badge--success">Issued</span></td>
+                            <td>1</td>
+                            <td class="wads-muted wads-text-sm">2026-03-16</td>
+                            <td class="text-right">
+                                <div class="wads-cluster" style="justify-content:flex-end;gap:4px">
+                                    <button class="wads-btn wads-btn--ghost wads-btn--sm">PDF</button>
+                                    <div class="wads-dropdown">
+                                        <button class="wads-btn wads-btn--ghost wads-btn--sm" data-wads-dropdown>···</button>
+                                        <div class="wads-dropdown__menu wads-dropdown__menu--right">
+                                            <a class="wads-dropdown__item" href="#">View in Bsale</a>
+                                            <a class="wads-dropdown__item" href="#">Copy public URL</a>
+                                            <div class="wads-dropdown__divider"></div>
+                                            <a class="wads-dropdown__item wads-dropdown__item--danger" href="#">Void document</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#1055</strong></td>
+                            <td>—</td>
+                            <td>Boleta</td>
+                            <td>Carlos Rojas</td>
+                            <td><span class="wads-badge wads-badge--dot wads-badge--warning">Pending</span></td>
+                            <td>2</td>
+                            <td class="wads-muted wads-text-sm">2026-03-15</td>
+                            <td class="text-right">
+                                <button class="wads-btn wads-btn--secondary wads-btn--sm">Retry</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#1053</strong></td>
+                            <td>—</td>
+                            <td>Boleta</td>
+                            <td>Ana Torres</td>
+                            <td><span class="wads-badge wads-badge--dot wads-badge--danger">Failed</span></td>
+                            <td>3</td>
+                            <td class="wads-muted wads-text-sm">2026-03-15</td>
+                            <td class="text-right">
+                                <button class="wads-btn wads-btn--ghost wads-btn--sm">Details</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>#1050</strong></td>
+                            <td><code>NC-41</code></td>
+                            <td>Credit Note</td>
+                            <td>Importadora Sur Ltda</td>
+                            <td><span class="wads-badge wads-badge--solid-danger">Void</span></td>
+                            <td>1</td>
+                            <td class="wads-muted wads-text-sm">2026-03-14</td>
+                            <td class="text-right">
+                                <button class="wads-btn wads-btn--ghost wads-btn--sm">View</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="wads-between" style="margin-top:16px">
+                <span class="wads-muted">Showing 1–20 of 1,284</span>
+                <nav class="wads-pagination">
+                    <span class="wads-page-item is-disabled">← Prev</span>
+                    <a class="wads-page-item is-active" href="#">1</a>
+                    <a class="wads-page-item" href="#">2</a>
+                    <a class="wads-page-item" href="#">3</a>
+                    <span class="wads-page-item wads-page-item--ellipsis">…</span>
+                    <a class="wads-page-item" href="#">64</a>
+                    <a class="wads-page-item" href="#">Next →</a>
+                </nav>
+            </div>
+
+        </main><!-- .wads-main -->
+
+    </div><!-- .wads-app-shell -->
+
+</div><!-- #wpcontent -->
+
+<script src="assets/js/design-system.js"></script>
+<script>
+// Dropdown toggle (add to design-system.js in production)
+document.addEventListener('click', function(e) {
+    var trigger = e.target.closest('[data-wads-dropdown]');
+
+    // Close all open dropdowns except clicked one
+    document.querySelectorAll('.wads-dropdown.is-open').forEach(function(d) {
+        if (!trigger || !d.contains(trigger)) d.classList.remove('is-open');
+    });
+
+    if (trigger) {
+        trigger.closest('.wads-dropdown').classList.toggle('is-open');
+    }
+});
+</script>
+</body>
+</html>

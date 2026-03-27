@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WP Admin Design System — Demo</title>
+    <link rel="stylesheet" href="assets/css/design-system.css">
+    <style>
+        body {
+            background: #EDEBE6;
+            margin: 0;
+            padding: 32px 16px 80px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .demo-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .demo-header {
+            margin-bottom: 48px;
+            padding-bottom: 32px;
+            border-bottom: 1px solid #D0CBB8;
+        }
+        .demo-header h1 {
+            font-family: 'Lora', Georgia, serif;
+            font-size: 42px;
+            font-weight: 600;
+            color: #1A1714;
+            margin: 0 0 8px;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        .demo-header p {
+            font-size: 15px;
+            color: #7A736B;
+            margin: 0;
+        }
+        .demo-section {
+            margin-bottom: 56px;
+        }
+        .demo-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #9B6E35;
+            margin: 0 0 24px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #DDD8CF;
+        }
+        .demo-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .demo-row:last-child { margin-bottom: 0; }
+        .demo-bg-dark {
+            background: #1A1714;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .color-swatch {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .color-swatch__block {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            border: 1px solid rgba(26,23,20,.12);
+        }
+        .color-swatch__label {
+            font-size: 10px;
+            color: #7A736B;
+            font-family: 'JetBrains Mono', monospace;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="demo-wrap">
+
+    <!-- Header -->
+    <div class="demo-header">
+        <h1>WP Admin Design System</h1>
+        <p>Tokens, typography, and components for WordPress admin plugins.<br>
+           Scope: <code style="font-family: monospace; font-size: 13px; background: #E8E4DC; padding: 2px 6px; border-radius: 3px;">.wads</code> wrapper — Amber Bronze accent — Lora + Plus Jakarta Sans</p>
+    </div>
+
+    <div class="wads"><!-- DESIGN SYSTEM SCOPE STARTS HERE -->
+
+    <!-- 1. COLOR TOKENS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Color Tokens</p>
+        <div class="demo-row">
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#9B6E35"></div><span class="color-swatch__label">accent</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#7F5828"></div><span class="color-swatch__label">accent-hover</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#F6EDD8"></div><span class="color-swatch__label">accent-light</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#F8F7F4"></div><span class="color-swatch__label">bg</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#FFFFFF"></div><span class="color-swatch__label">surface</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#F3F1EC"></div><span class="color-swatch__label">surface-alt</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#1A1714"></div><span class="color-swatch__label">text</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#5A544D"></div><span class="color-swatch__label">text-2</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#9A9088"></div><span class="color-swatch__label">text-muted</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#3A7058"></div><span class="color-swatch__label">success</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#8A6B1E"></div><span class="color-swatch__label">warning</span></div>
+            <div class="color-swatch"><div class="color-swatch__block" style="background:#8B3535"></div><span class="color-swatch__label">danger</span></div>
+        </div>
+    </div>
+
+    <!-- 2. TYPOGRAPHY -->
+    <div class="demo-section">
+        <p class="demo-section-title">Typography</p>
+        <h1>Heading 1 — Lora Semibold</h1>
+        <h2>Heading 2 — Built for serious work</h2>
+        <h3>Heading 3 — Document engine ready</h3>
+        <h4>Heading 4 — Settings & Configuration</h4>
+        <h5>Heading 5 — Webhook events</h5>
+        <h6>Heading 6 — Meta information</h6>
+        <p class="wads-lead">Lead paragraph — This is a lead text that introduces a section with a slightly larger, relaxed line height for comfortable reading in an admin context.</p>
+        <p>Body text — Regular paragraph with <a href="#">anchor link</a>, <strong>bold text</strong>, and <em>italic copy</em>. Designed for readability at small sizes in the WordPress admin environment.</p>
+        <p class="wads-muted">Muted text — Used for secondary information, timestamps, and peripheral details that support the main content without competing with it.</p>
+        <p><span class="wads-caption">Caption label — Table headers, section labels</span></p>
+        <p>Inline code: <code>$order->get_meta('_bsale_document_id')</code></p>
+        <pre><code>// PHP example
+$payload = [
+    'codeSii'     => 39,
+    'referenceId' => 'woo_' . $order->get_id(),
+    'dispatch'    => 1,
+];</code></pre>
+        <blockquote>Blockquote — used for important notes, warnings, or quoted content that needs visual separation from the surrounding text.</blockquote>
+    </div>
+
+    <!-- 3. BUTTONS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Buttons</p>
+        <div class="demo-row">
+            <button class="wads-btn wads-btn--primary">Primary</button>
+            <button class="wads-btn wads-btn--secondary">Secondary</button>
+            <button class="wads-btn wads-btn--ghost">Ghost</button>
+            <button class="wads-btn wads-btn--danger">Danger</button>
+        </div>
+        <div class="demo-row">
+            <button class="wads-btn wads-btn--primary wads-btn--sm">Small Primary</button>
+            <button class="wads-btn wads-btn--secondary wads-btn--sm">Small Secondary</button>
+            <button class="wads-btn wads-btn--primary wads-btn--lg">Large Primary</button>
+        </div>
+        <div class="demo-row">
+            <button class="wads-btn wads-btn--primary" disabled>Disabled</button>
+            <button class="wads-btn wads-btn--secondary" disabled>Disabled</button>
+        </div>
+        <div class="wads-btn-group">
+            <button class="wads-btn wads-btn--secondary">Cancel</button>
+            <button class="wads-btn wads-btn--primary">Save Changes</button>
+        </div>
+    </div>
+
+    <!-- 4. BADGES -->
+    <div class="demo-section">
+        <p class="demo-section-title">Badges</p>
+        <div class="demo-row">
+            <span class="wads-badge wads-badge--default">Default</span>
+            <span class="wads-badge wads-badge--accent">Accent</span>
+            <span class="wads-badge wads-badge--success">Active</span>
+            <span class="wads-badge wads-badge--warning">Pending</span>
+            <span class="wads-badge wads-badge--danger">Failed</span>
+            <span class="wads-badge wads-badge--info">Info</span>
+        </div>
+        <div class="demo-row">
+            <span class="wads-badge wads-badge--dot wads-badge--success">Processing</span>
+            <span class="wads-badge wads-badge--dot wads-badge--warning">Queued</span>
+            <span class="wads-badge wads-badge--dot wads-badge--danger">Error</span>
+        </div>
+        <div class="demo-row">
+            <span class="wads-badge wads-badge--solid-accent">Pro</span>
+            <span class="wads-badge wads-badge--solid-success">Issued</span>
+            <span class="wads-badge wads-badge--solid-danger">Void</span>
+        </div>
+    </div>
+
+    <!-- 5. NOTICES -->
+    <div class="demo-section">
+        <p class="demo-section-title">Notices</p>
+        <div class="wads-stack">
+            <div class="wads-notice wads-notice--success">
+                <div class="wads-notice__content">
+                    <span class="wads-notice__title">Document issued successfully</span>
+                    Boleta #3421 was created in Bsale and attached to order #1055.
+                </div>
+                <button class="wads-notice__dismiss" aria-label="Dismiss">×</button>
+            </div>
+            <div class="wads-notice wads-notice--warning">
+                <div class="wads-notice__content">
+                    <span class="wads-notice__title">Stock sync incomplete</span>
+                    48 of 52 products were updated. 4 SKUs were not found in Bsale.
+                </div>
+                <button class="wads-notice__dismiss" aria-label="Dismiss">×</button>
+            </div>
+            <div class="wads-notice wads-notice--danger">
+                <div class="wads-notice__content">
+                    <span class="wads-notice__title">API connection failed</span>
+                    Could not reach Bsale API. Check your token and sandbox setting.
+                </div>
+                <button class="wads-notice__dismiss" aria-label="Dismiss">×</button>
+            </div>
+            <div class="wads-notice wads-notice--info">
+                <div class="wads-notice__content">
+                    <span class="wads-notice__title">Webhook registered</span>
+                    Company ID 8849 was registered from the first incoming webhook.
+                </div>
+            </div>
+            <div class="wads-notice wads-notice--neutral wads-notice--banner">
+                <div class="wads-notice__content">
+                    This feature is only available in the <strong>Pro</strong> edition.
+                    <a href="#">Upgrade</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. FORMS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Form Elements</p>
+        <div class="wads-card" style="max-width: 540px;">
+            <div class="wads-card__header">
+                <div>
+                    <p class="wads-card__title">API Configuration</p>
+                    <p class="wads-card__subtitle">Connect your Bsale account</p>
+                </div>
+            </div>
+            <div class="wads-card__body">
+                <div class="wads-stack">
+                    <div class="wads-form-group">
+                        <label class="wads-label" for="api-token">API Token <span class="wads-required">*</span></label>
+                        <input class="wads-input" type="text" id="api-token" placeholder="Paste your Bsale access token">
+                        <span class="wads-hint">Found in Bsale → Settings → API access.</span>
+                    </div>
+                    <div class="wads-form-group">
+                        <label class="wads-label" for="office-id">Default Office</label>
+                        <select class="wads-select" id="office-id">
+                            <option value="">— Select office —</option>
+                            <option value="1">Casa Matriz (ID 1)</option>
+                            <option value="2">Sucursal Norte (ID 2)</option>
+                        </select>
+                    </div>
+                    <div class="wads-form-group">
+                        <label class="wads-label" for="error-field">Invalid field</label>
+                        <input class="wads-input wads-input--error" type="text" id="error-field" value="bad_value">
+                        <span class="wads-field-error">This token format is not valid.</span>
+                    </div>
+                    <div class="wads-form-group">
+                        <label class="wads-label">Document type</label>
+                        <div class="wads-stack wads-stack--sm">
+                            <label class="wads-check">
+                                <input type="checkbox" checked>
+                                <div>
+                                    <span class="wads-check__label">Issue boleta (codeSii 39)</span>
+                                    <span class="wads-check__hint">Automatically on WooCommerce order completion.</span>
+                                </div>
+                            </label>
+                            <label class="wads-check">
+                                <input type="checkbox">
+                                <div>
+                                    <span class="wads-check__label">Issue factura (codeSii 33)</span>
+                                    <span class="wads-check__hint">When customer provides a RUT and selects invoice.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="wads-form-group">
+                        <label class="wads-toggle">
+                            <input type="checkbox" checked>
+                            <span class="wads-toggle__track"></span>
+                            <span class="wads-toggle__label">Enable sandbox mode</span>
+                        </label>
+                    </div>
+                    <div class="wads-form-group">
+                        <label class="wads-label" for="notes">Notes</label>
+                        <textarea class="wads-textarea" id="notes" placeholder="Optional internal notes about this configuration…"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="wads-card__footer">
+                <button class="wads-btn wads-btn--ghost wads-btn--sm">Test Connection</button>
+                <button class="wads-btn wads-btn--primary">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. TABS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Tabs</p>
+        <div class="wads-tabs" data-wads-tabs>
+            <button class="wads-tab is-active" data-tab="tab-general">General</button>
+            <button class="wads-tab"           data-tab="tab-offices">Offices</button>
+            <button class="wads-tab"           data-tab="tab-webhooks">Webhooks</button>
+            <button class="wads-tab"           data-tab="tab-logs">Logs</button>
+        </div>
+        <div class="wads-tab-panels">
+            <div class="wads-tab-panel is-active" id="tab-general">
+                <div class="wads-notice wads-notice--neutral" style="margin-top:0">
+                    General settings content — API token, document type, dispatch mode.
+                </div>
+            </div>
+            <div class="wads-tab-panel" id="tab-offices">
+                <div class="wads-notice wads-notice--neutral" style="margin-top:0">
+                    Offices & multi-office mapping for Pro edition.
+                </div>
+            </div>
+            <div class="wads-tab-panel" id="tab-webhooks">
+                <div class="wads-notice wads-notice--neutral" style="margin-top:0">
+                    Webhook secret, company ID, debug log.
+                </div>
+            </div>
+            <div class="wads-tab-panel" id="tab-logs">
+                <div class="wads-notice wads-notice--neutral" style="margin-top:0">
+                    DTE generation logs with filter by status and date.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. TABLE -->
+    <div class="demo-section">
+        <p class="demo-section-title">Table</p>
+        <div class="wads-table-wrap">
+            <table class="wads-table">
+                <thead>
+                    <tr>
+                        <th>Order</th>
+                        <th>Document</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Attempts</th>
+                        <th class="text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>#1055</strong></td>
+                        <td>3421 <span class="wads-text-muted wads-text-sm">/ Folio 3421</span></td>
+                        <td>Boleta</td>
+                        <td><span class="wads-badge wads-badge--dot wads-badge--success">Issued</span></td>
+                        <td>1</td>
+                        <td class="text-right"><button class="wads-btn wads-btn--ghost wads-btn--sm">View PDF</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>#1054</strong></td>
+                        <td>—</td>
+                        <td>Factura</td>
+                        <td><span class="wads-badge wads-badge--dot wads-badge--warning">Pending</span></td>
+                        <td>2</td>
+                        <td class="text-right"><button class="wads-btn wads-btn--ghost wads-btn--sm">Retry</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>#1053</strong></td>
+                        <td>—</td>
+                        <td>Boleta</td>
+                        <td><span class="wads-badge wads-badge--dot wads-badge--danger">Failed</span></td>
+                        <td>3</td>
+                        <td class="text-right"><button class="wads-btn wads-btn--ghost wads-btn--sm">Details</button></td>
+                    </tr>
+                    <tr>
+                        <td><strong>#1052</strong></td>
+                        <td>3418</td>
+                        <td>Nota crédito</td>
+                        <td><span class="wads-badge wads-badge--solid-danger">Void</span></td>
+                        <td>1</td>
+                        <td class="text-right"><button class="wads-btn wads-btn--ghost wads-btn--sm">View</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- 9. SETTINGS LAYOUT -->
+    <div class="demo-section">
+        <p class="demo-section-title">Settings Page Layout</p>
+        <div class="wads-settings">
+            <div class="wads-page-header">
+                <div class="wads-page-header__content">
+                    <h1 class="wads-page-header__title">Bsale DTE Settings</h1>
+                    <p class="wads-page-header__desc">Configure your WooCommerce integration with Bsale electronic documents.</p>
+                </div>
+                <div class="wads-page-header__actions">
+                    <span class="wads-badge wads-badge--solid-accent">Pro</span>
+                    <button class="wads-btn wads-btn--secondary wads-btn--sm">Test Connection</button>
+                </div>
+            </div>
+
+            <div class="wads-settings-section">
+                <div class="wads-settings-section__header">
+                    <p class="wads-settings-section__title">API Connection</p>
+                    <p class="wads-settings-section__desc">Credentials and environment for the Bsale API.</p>
+                </div>
+                <div class="wads-settings-section__body">
+                    <div class="wads-setting-row">
+                        <div class="wads-setting-row__meta">
+                            <span class="wads-setting-row__label">Access Token</span>
+                            <span class="wads-setting-row__desc">Your Bsale API token. Keep it secret.</span>
+                        </div>
+                        <div class="wads-setting-row__control">
+                            <input type="password" class="wads-input" placeholder="••••••••••••••••">
+                        </div>
+                    </div>
+                    <div class="wads-setting-row">
+                        <div class="wads-setting-row__meta">
+                            <span class="wads-setting-row__label">Sandbox Mode</span>
+                            <span class="wads-setting-row__desc">Use api.bsale.dev instead of api.bsale.cl.</span>
+                        </div>
+                        <div class="wads-setting-row__control">
+                            <label class="wads-toggle">
+                                <input type="checkbox">
+                                <span class="wads-toggle__track"></span>
+                                <span class="wads-toggle__label">Enable sandbox</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="wads-setting-row">
+                        <div class="wads-setting-row__meta">
+                            <span class="wads-setting-row__label">Default Office</span>
+                            <span class="wads-setting-row__desc">Bsale office ID for document issuance.</span>
+                        </div>
+                        <div class="wads-setting-row__control">
+                            <select class="wads-select">
+                                <option>Casa Matriz (ID 1)</option>
+                                <option>Sucursal Norte (ID 2)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="wads-settings-section__footer">
+                    <button class="wads-btn wads-btn--primary">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 10. STAT CARDS + PROGRESS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Stat Cards & Progress</p>
+        <div class="wads-grid wads-grid--4">
+            <div class="wads-stat">
+                <span class="wads-stat__label">Documents Issued</span>
+                <span class="wads-stat__value">1,284</span>
+                <span class="wads-stat__change wads-stat__change--up">+12% this month</span>
+            </div>
+            <div class="wads-stat">
+                <span class="wads-stat__label">Pending Retry</span>
+                <span class="wads-stat__value">4</span>
+                <span class="wads-stat__change">Next attempt in 15 min</span>
+            </div>
+            <div class="wads-stat">
+                <span class="wads-stat__label">Stock Synced</span>
+                <span class="wads-stat__value">98.2%</span>
+                <span class="wads-stat__change wads-stat__change--up">Last sync 2 min ago</span>
+            </div>
+            <div class="wads-stat">
+                <span class="wads-stat__label">Webhook Events</span>
+                <span class="wads-stat__value">307</span>
+                <span class="wads-stat__change">Today</span>
+            </div>
+        </div>
+        <div style="margin-top:20px; max-width:400px;" class="wads-stack">
+            <div>
+                <div class="wads-between wads-mb-2">
+                    <span class="wads-caption">Stock sync progress</span>
+                    <span class="wads-text-sm wads-text-muted">482 / 520</span>
+                </div>
+                <div class="wads-progress">
+                    <div class="wads-progress__bar" style="width:92%"></div>
+                </div>
+            </div>
+            <div>
+                <div class="wads-between wads-mb-2">
+                    <span class="wads-caption">DTE success rate</span>
+                    <span class="wads-text-sm wads-text-muted">99.3%</span>
+                </div>
+                <div class="wads-progress wads-progress--success">
+                    <div class="wads-progress__bar" style="width:99.3%"></div>
+                </div>
+            </div>
+            <div>
+                <div class="wads-between wads-mb-2">
+                    <span class="wads-caption">Failed documents</span>
+                    <span class="wads-text-sm wads-text-muted">3 / 50</span>
+                </div>
+                <div class="wads-progress wads-progress--danger">
+                    <div class="wads-progress__bar" style="width:6%"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 11. MODAL -->
+    <div class="demo-section">
+        <p class="demo-section-title">Modal</p>
+        <button class="wads-btn wads-btn--secondary" data-wads-modal-open="demo-modal">Open Modal</button>
+
+        <div class="wads-modal-backdrop is-hidden" id="demo-modal" data-wads-modal>
+            <div class="wads-modal">
+                <div class="wads-modal__header">
+                    <h3 class="wads-modal__title">Retry Document #1054</h3>
+                    <button class="wads-modal__close" aria-label="Close">×</button>
+                </div>
+                <div class="wads-modal__body">
+                    <p>This will attempt to re-issue the DTE for order <strong>#1054</strong> (Factura, 2 previous attempts).</p>
+                    <div class="wads-notice wads-notice--warning wads-mt-4">
+                        <div class="wads-notice__content">
+                            Make sure the customer RUT and billing data are correct before retrying.
+                        </div>
+                    </div>
+                </div>
+                <div class="wads-modal__footer">
+                    <button class="wads-btn wads-btn--ghost" data-wads-modal-close>Cancel</button>
+                    <button class="wads-btn wads-btn--primary">Retry Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 12. EMPTY STATE + SPINNER -->
+    <div class="demo-section">
+        <p class="demo-section-title">Empty State & Spinner</p>
+        <div class="wads-grid wads-grid--2">
+            <div class="wads-card">
+                <div class="wads-card__body">
+                    <div class="wads-empty">
+                        <p class="wads-empty__title">No documents yet</p>
+                        <p class="wads-empty__desc">Documents will appear here once orders are completed and DTEs are generated in Bsale.</p>
+                        <button class="wads-btn wads-btn--secondary wads-btn--sm">View Orders</button>
+                    </div>
+                </div>
+            </div>
+            <div class="wads-card">
+                <div class="wads-card__body" style="display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;min-height:140px;">
+                    <div class="wads-spinner"></div>
+                    <span class="wads-text-muted wads-text-sm">Syncing stock from Bsale…</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 13. ACCORDION -->
+    <div class="demo-section">
+        <p class="demo-section-title">Accordion</p>
+        <div class="wads-accordion" style="max-width:600px">
+            <div class="wads-accordion-item">
+                <button class="wads-accordion-trigger" aria-expanded="true">
+                    How does the DTE retry work?
+                    <svg class="wads-accordion-trigger__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="wads-accordion-panel is-open">
+                    <div class="wads-accordion-panel__inner">
+                        <p>When a DTE fails to generate, it's queued for automatic retry. The Pro edition retries up to 3 times with exponential backoff: 15 min, 1 hour, and 6 hours. After 3 attempts, the document is marked as permanently failed and an admin notice is shown.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="wads-accordion-item">
+                <button class="wads-accordion-trigger" aria-expanded="false">
+                    What is the cpnId and why does it matter?
+                    <svg class="wads-accordion-trigger__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="wads-accordion-panel">
+                    <div class="wads-accordion-panel__inner">
+                        <p>The <code>cpnId</code> is Bsale's company identifier. The first valid webhook registers it automatically. All subsequent webhooks from a different company are rejected with HTTP 403 to prevent data mixing. To reset it, delete the <code>bsale_dte_cpn_id</code> option from the database.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="wads-accordion-item">
+                <button class="wads-accordion-trigger" aria-expanded="false">
+                    Sandbox vs Production mode
+                    <svg class="wads-accordion-trigger__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+                </button>
+                <div class="wads-accordion-panel">
+                    <div class="wads-accordion-panel__inner">
+                        <p>Sandbox uses <code>api.bsale.dev</code>. Documents created there don't go to SII and don't generate real folios. Always test in sandbox before going live. Your sandbox token and production token are different — check your Bsale account.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 14. DROPDOWN -->
+    <div class="demo-section">
+        <p class="demo-section-title">Dropdown Menu</p>
+        <div class="demo-row">
+            <div class="wads-dropdown">
+                <button class="wads-btn wads-btn--secondary" data-wads-dropdown>Actions ▾</button>
+                <div class="wads-dropdown__menu">
+                    <span class="wads-dropdown__label">Document</span>
+                    <a class="wads-dropdown__item" href="#">View PDF</a>
+                    <a class="wads-dropdown__item" href="#">Copy public URL</a>
+                    <a class="wads-dropdown__item" href="#">View in Bsale</a>
+                    <div class="wads-dropdown__divider"></div>
+                    <a class="wads-dropdown__item wads-dropdown__item--danger" href="#">Void document</a>
+                </div>
+            </div>
+            <div class="wads-dropdown">
+                <button class="wads-btn wads-btn--ghost" data-wads-dropdown>···</button>
+                <div class="wads-dropdown__menu wads-dropdown__menu--right">
+                    <a class="wads-dropdown__item" href="#">Retry</a>
+                    <a class="wads-dropdown__item" href="#">View details</a>
+                    <div class="wads-dropdown__divider"></div>
+                    <a class="wads-dropdown__item wads-dropdown__item--muted" href="#">Dismiss</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 15. SEARCH + CHIPS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Search & Chips</p>
+        <div class="wads-stack wads-stack--sm">
+            <div class="wads-search" style="display:block">
+                <span class="wads-search__icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                </span>
+                <input class="wads-search__input" type="search" placeholder="Search by order, SKU, or folio…">
+                <button class="wads-search__clear" aria-label="Clear">×</button>
+            </div>
+            <div class="wads-chips">
+                <span class="wads-chip wads-chip--accent">All types</span>
+                <span class="wads-chip">Boleta</span>
+                <span class="wads-chip">Factura</span>
+                <span class="wads-chip wads-chip--success">Issued</span>
+                <span class="wads-chip wads-chip--danger">Failed <button class="wads-chip__remove">&times;</button></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 16. BREADCRUMBS + PAGINATION -->
+    <div class="demo-section">
+        <p class="demo-section-title">Breadcrumbs & Pagination</p>
+        <div class="wads-stack">
+            <nav class="wads-breadcrumbs">
+                <span class="wads-breadcrumbs__item">
+                    <a class="wads-breadcrumbs__link" href="#">Bsale DTE</a>
+                    <span class="wads-breadcrumbs__sep">/</span>
+                </span>
+                <span class="wads-breadcrumbs__item">
+                    <a class="wads-breadcrumbs__link" href="#">Settings</a>
+                    <span class="wads-breadcrumbs__sep">/</span>
+                </span>
+                <span class="wads-breadcrumbs__item">
+                    <span class="wads-breadcrumbs__current">Offices</span>
+                </span>
+            </nav>
+            <nav class="wads-pagination">
+                <span class="wads-page-item is-disabled">← Prev</span>
+                <a class="wads-page-item is-active" href="#">1</a>
+                <a class="wads-page-item" href="#">2</a>
+                <a class="wads-page-item" href="#">3</a>
+                <span class="wads-page-item wads-page-item--ellipsis">…</span>
+                <a class="wads-page-item" href="#">18</a>
+                <a class="wads-page-item" href="#">Next →</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 17. KEY-VALUE LIST + TIMELINE -->
+    <div class="demo-section">
+        <p class="demo-section-title">Key-Value List & Timeline</p>
+        <div class="wads-grid wads-grid--2">
+            <div>
+                <p class="wads-caption wads-mb-2">Document details</p>
+                <div class="wads-kv-list">
+                    <div class="wads-kv-row">
+                        <div class="wads-kv-key">Order ID</div>
+                        <div class="wads-kv-value">#1055</div>
+                    </div>
+                    <div class="wads-kv-row">
+                        <div class="wads-kv-key">Bsale ID</div>
+                        <div class="wads-kv-value">3421</div>
+                    </div>
+                    <div class="wads-kv-row">
+                        <div class="wads-kv-key">Type</div>
+                        <div class="wads-kv-value">Boleta (codeSii 39)</div>
+                    </div>
+                    <div class="wads-kv-row">
+                        <div class="wads-kv-key">Status</div>
+                        <div class="wads-kv-value"><span class="wads-badge wads-badge--dot wads-badge--success">Issued</span></div>
+                    </div>
+                    <div class="wads-kv-row">
+                        <div class="wads-kv-key">Attempts</div>
+                        <div class="wads-kv-value">1</div>
+                    </div>
+                    <div class="wads-kv-row">
+                        <div class="wads-kv-key">Created</div>
+                        <div class="wads-kv-value wads-font-mono" style="font-size:12px">2026-03-16 14:22:03</div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p class="wads-caption wads-mb-2">Activity timeline</p>
+                <div class="wads-timeline">
+                    <div class="wads-timeline-item wads-timeline-item--success">
+                        <div class="wads-timeline-item__header">
+                            <span class="wads-timeline-item__title">Document issued</span>
+                            <span class="wads-timeline-item__time">14:22:03</span>
+                        </div>
+                        <div class="wads-timeline-item__body">Boleta #3421 generated and sent to SII.</div>
+                    </div>
+                    <div class="wads-timeline-item wads-timeline-item--warning">
+                        <div class="wads-timeline-item__header">
+                            <span class="wads-timeline-item__title">Retry attempt 2</span>
+                            <span class="wads-timeline-item__time">12:08:15</span>
+                        </div>
+                        <div class="wads-timeline-item__body">API timeout. Queued for next attempt.</div>
+                    </div>
+                    <div class="wads-timeline-item wads-timeline-item--danger">
+                        <div class="wads-timeline-item__header">
+                            <span class="wads-timeline-item__title">First attempt failed</span>
+                            <span class="wads-timeline-item__time">11:05:42</span>
+                        </div>
+                        <div class="wads-timeline-item__body">Invalid token. Check API credentials.</div>
+                    </div>
+                    <div class="wads-timeline-item">
+                        <div class="wads-timeline-item__header">
+                            <span class="wads-timeline-item__title">Order completed</span>
+                            <span class="wads-timeline-item__time">11:05:10</span>
+                        </div>
+                        <div class="wads-timeline-item__body">WooCommerce order #1055 marked as complete.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 18. CALLOUT + STEPS -->
+    <div class="demo-section">
+        <p class="demo-section-title">Callout & Steps</p>
+        <div class="wads-stack">
+            <div class="wads-callout wads-callout--warning">
+                <p class="wads-callout__title">Before going live</p>
+                <p>Make sure to test your full order flow in sandbox mode first. Switch to production only when you've confirmed boletas and facturas generate correctly, stock decrements as expected, and webhook events are received.</p>
+            </div>
+            <div class="wads-callout wads-callout--accent">
+                <p class="wads-callout__title">Pro feature: Multi-office routing</p>
+                <p>Map WooCommerce shipping methods to different Bsale offices. Orders shipped via "Store Pickup" can generate documents from a different office than "Home Delivery" orders.</p>
+            </div>
+        </div>
+        <div class="wads-steps" style="max-width:500px;margin-top:24px">
+            <div class="wads-step is-done">
+                <div class="wads-step__circle">✓</div>
+                <span class="wads-step__label">API Token</span>
+            </div>
+            <div class="wads-step is-done">
+                <div class="wads-step__circle">✓</div>
+                <span class="wads-step__label">Test Connection</span>
+            </div>
+            <div class="wads-step is-active">
+                <div class="wads-step__circle">3</div>
+                <span class="wads-step__label">Office Setup</span>
+            </div>
+            <div class="wads-step">
+                <div class="wads-step__circle">4</div>
+                <span class="wads-step__label">Go Live</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 19. COPY BLOCK + API REF -->
+    <div class="demo-section">
+        <p class="demo-section-title">Copy Block & API Reference</p>
+        <div class="wads-copy-block" style="max-width:600px;margin-bottom:16px">
+            <div class="wads-copy-block__btn" data-wads-copy='require "vendor/autoload.php";
+use UserDOMP\WpAdminDS\Components;
+
+add_action("admin_enqueue_scripts", function() {
+    DesignSystem::enqueue(DesignSystem::assets_url(__FILE__));
+});'>Copy</div>
+            <pre><code>require "vendor/autoload.php";
+use UserDOMP\WpAdminDS\Components;
+
+add_action("admin_enqueue_scripts", function() {
+    DesignSystem::enqueue(DesignSystem::assets_url(__FILE__));
+});</code></pre>
+        </div>
+        <div class="wads-api-ref" style="max-width:600px">
+            <div class="wads-api-ref__row">
+                <div class="wads-api-ref__key">Components::button()</div>
+                <div class="wads-api-ref__value">Render a button. Variants: primary, secondary, ghost, danger.</div>
+            </div>
+            <div class="wads-api-ref__row">
+                <div class="wads-api-ref__key">Components::notice()</div>
+                <div class="wads-api-ref__value">Alert/notice block. Types: success, warning, danger, info, neutral.</div>
+            </div>
+            <div class="wads-api-ref__row">
+                <div class="wads-api-ref__key">Components::settings_section()</div>
+                <div class="wads-api-ref__value">Full settings section with header, rows, and save footer.</div>
+            </div>
+            <div class="wads-api-ref__row">
+                <div class="wads-api-ref__key">Components::card()</div>
+                <div class="wads-api-ref__value">Card with optional header, body, and footer slots.</div>
+            </div>
+            <div class="wads-api-ref__row">
+                <div class="wads-api-ref__key">Components::form_group()</div>
+                <div class="wads-api-ref__value">Label + control + hint + error wrapper.</div>
+            </div>
+            <div class="wads-api-ref__row">
+                <div class="wads-api-ref__key">Components::kv_list()</div>
+                <div class="wads-api-ref__value">Key-value table for document details, order meta, etc.</div>
+            </div>
+        </div>
+    </div>
+
+    </div><!-- .wads SCOPE ENDS -->
+
+</div><!-- .demo-wrap -->
+
+<script src="assets/js/design-system.js"></script>
+</body>
+</html>
