@@ -1,0 +1,32 @@
+{
+	"name": "pwl/wp-admin-design-system",
+	"description": "A design system for WordPress admin plugins — tokens, typography, and components.",
+	"type": "library",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"wordpress",
+		"design-system",
+		"admin",
+		"plugin",
+		"css"
+	],
+	"authors": [
+		{
+			"name": "Dario Munoz",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"php": ">=8.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"UserDOMP\\WpAdminDS\\": "src/"
+		}
+	},
+	"extra": {
+		"branch-alias": {
+			"dev-main": "1.0-dev"
+		}
+	}
+}

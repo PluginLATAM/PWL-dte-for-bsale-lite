@@ -1,0 +1,38 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: pwl-dte-for-bsale 2.0.4\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-05 00:00+0000\n"
+"PO-Revision-Date: 2026-04-05 00:00+0000\n"
+"Last-Translator: PluginLATAM\n"
+"Language-Team: Spanish\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Domain: pwl-dte-for-bsale\n"
+
+msgid "Dashboard"
+msgstr "Panel"
+
+msgid "Settings"
+msgstr "Configuración"
+
+msgid "Bsale DTE Logs"
+msgstr "Registros DTE Bsale"
+
+msgid "DTE Logs"
+msgstr "Registros DTE"
+
+msgid "Import from Bsale"
+msgstr "Importar desde Bsale"
+
+msgid "Import Products"
+msgstr "Importar productos"
+
+msgid "Debug Webhooks Bsale"
+msgstr "Depuración de webhooks Bsale"
+
+msgid "Debug Webhooks"
+msgstr "Depurar webhooks"

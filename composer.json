@@ -1,0 +1,25 @@
+{
+	"name": "pluginlatam/pwl-dte-for-bsale",
+	"version": "1.0.0",
+	"description": "Integración WooCommerce con Bsale para facturación electrónica chilena",
+	"type": "wordpress-plugin",
+	"license": "GPL-3.0-or-later",
+	"autoload": {
+		"psr-4": {
+			"PwlDte\\": "src/"
+		}
+	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/PluginLATAM/wp-admin-design-system"
+		}
+	],
+	"require": {
+		"php": ">=8.0",
+		"pwl/wp-admin-design-system": "^1.0"
+	},
+	"config": {
+		"optimize-autoloader": true
+	}
+}

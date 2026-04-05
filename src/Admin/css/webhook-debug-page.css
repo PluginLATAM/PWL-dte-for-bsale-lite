@@ -1,0 +1,87 @@
+.bsale-badge {
+	display: inline-block;
+	padding: 2px 8px;
+	border-radius: 10px;
+	border: 1px solid;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: 0.3px;
+	white-space: nowrap;
+}
+
+.bsale-badge--topic {
+	background: #f0f0f1;
+	color: #3c434a;
+	border-color: #c3c4c7;
+	font-weight: 400;
+}
+
+#bsale-wh-table td {
+	vertical-align: middle;
+}
+
+#bsale-wh-table tr.bsale-payload-row td {
+	background: #f8f9fa;
+}
+
+#bsale-wh-table .bsale-wh-row:hover {
+	cursor: default;
+}
+
+.bsale-payload-wrap {
+	border-top: 2px solid #0073aa;
+	margin: 0;
+}
+
+.bsale-payload-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 14px;
+	background: #e8f4fb;
+	font-size: 12px;
+	font-weight: 600;
+	color: #0073aa;
+}
+
+.bsale-json-pre {
+	margin: 0;
+	padding: 14px 16px;
+	background: #1e1e2e;
+	color: #cdd6f4;
+	font-size: 12px;
+	line-height: 1.6;
+	overflow-x: auto;
+	border-radius: 0 0 3px 3px;
+	tab-size: 2;
+}
+
+.bsale-json-pre .jk {
+	color: #89b4fa;
+}
+
+.bsale-json-pre .js {
+	color: #a6e3a1;
+}
+
+.bsale-json-pre .jn {
+	color: #fab387;
+}
+
+.bsale-json-pre .jb {
+	color: #cba6f7;
+}
+
+.bsale-json-pre .jl {
+	color: #f38ba8;
+}
+
+.subsubsub a.current {
+	font-weight: 700;
+	color: #3c434a;
+}
+
+.bsale-wh-message {
+	color: #50575e;
+	font-size: 12px;
+}

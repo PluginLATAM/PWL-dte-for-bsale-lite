@@ -1,0 +1,60 @@
+{
+    "packages": [
+        {
+            "name": "pwl/wp-admin-design-system",
+            "version": "v1.0.5",
+            "version_normalized": "1.0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PluginLATAM/wp-admin-design-system.git",
+                "reference": "2955fc41bf9629dd3b09959054c1ef98363f3d14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PluginLATAM/wp-admin-design-system/zipball/2955fc41bf9629dd3b09959054c1ef98363f3d14",
+                "reference": "2955fc41bf9629dd3b09959054c1ef98363f3d14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "time": "2026-03-27T13:00:41+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.0-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "UserDOMP\\WpAdminDS\\": "src/"
+                }
+            },
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Dario Munoz",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A design system for WordPress admin plugins — tokens, typography, and components.",
+            "keywords": [
+                "admin",
+                "css",
+                "design-system",
+                "plugin",
+                "wordpress"
+            ],
+            "support": {
+                "source": "https://github.com/PluginLATAM/wp-admin-design-system/tree/v1.0.5",
+                "issues": "https://github.com/PluginLATAM/wp-admin-design-system/issues"
+            },
+            "install-path": "../pwl/wp-admin-design-system"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}
