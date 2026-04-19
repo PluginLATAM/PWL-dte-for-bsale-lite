@@ -3,13 +3,13 @@
  * Plugin Name:       PWL DTE for Bsale
  * Plugin URI:        https://github.com/PluginLATAM/PWL-dte-for-bsale-lite
  * Source Code:       https://github.com/PluginLATAM/PWL-dte-for-bsale-lite
- * Description:       Integración WooCommerce con Bsale para facturación electrónica chilena
+ * Description:       Connect WooCommerce with Bsale for Chilean electronic invoicing (DTE).
  * Version:           2.1.0
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Requires Plugins:  woocommerce
  * Author:            PluginLATAM
- * Author URI:        https://pluginwordpresslatam.cl/
+ * Author URI:        https://github.com/PluginLATAM
  * Text Domain:       pwl-dte-for-bsale
  * Domain Path:       /languages
  * License:           GPL-3.0-or-later
