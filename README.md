@@ -2,7 +2,7 @@
 
 WooCommerce plugin for Chile: generate **boleta** and **factura electrónica** via [Bsale](https://www.bsale.cl/) when orders complete.
 
-**Stable release:** `2.0.6` · **WordPress.org:** [Plugin Directory](https://wordpress.org/plugins/pwl-dte-for-bsale/) (when listed)
+**Stable release:** `2.1.0` · **WordPress.org:** [Plugin Directory](https://wordpress.org/plugins/pwl-dte-for-bsale/) (when listed)
 
 ---
 
@@ -72,6 +72,8 @@ For the full, directory-style changelog, open **`readme.txt`** in the built plug
 
 Recent highlights:
 
+- **2.1.0** — Lite build scrubs license-client Composer metadata; Pro license client and admin updates.
+- **2.0.7** — Removed automatic Lite/Pro cross-deactivation behavior and aligned final release metadata/changelog.
 - **2.0.6** — Plugin Check–oriented hardening, WC logger usage, DB/query and metadata fixes.
 - **2.0.5** — WordPress.org review compliance (escaping, assets, i18n) and Lite E2E workflow.
 - **2.0.0** — Rename to PWL DTE for Bsale; inline scripts via `wp_add_inline_script`; External Services readme section.

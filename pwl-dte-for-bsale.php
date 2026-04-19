@@ -4,12 +4,12 @@
  * Plugin URI:        https://github.com/PluginLATAM/PWL-dte-for-bsale-lite
  * Source Code:       https://github.com/PluginLATAM/PWL-dte-for-bsale-lite
  * Description:       Integración WooCommerce con Bsale para facturación electrónica chilena
- * Version:           2.0.6
+ * Version:           2.1.0
  * Requires at least: 6.0
  * Requires PHP:      8.0
  * Requires Plugins:  woocommerce
  * Author:            PluginLATAM
- * Author URI:        https://github.com/PluginLATAM
+ * Author URI:        https://pluginwordpresslatam.cl/
  * Text Domain:       pwl-dte-for-bsale
  * Domain Path:       /languages
  * License:           GPL-3.0-or-later
@@ -22,7 +22,7 @@ if (in_array('pwl-dte-for-bsale-pro/pwl-dte-for-bsale-pro.php', (array) get_opti
 	return;
 }
 
-define('PWL_DTE_VERSION', '2.0.6');
+define('PWL_DTE_VERSION', '2.1.0');
 define('PWL_DTE_EDITION', 'lite'); // injected by build.js
 define('PWL_DTE_FILE',    __FILE__);
 define('PWL_DTE_DIR',     plugin_dir_path(__FILE__));
@@ -46,18 +46,31 @@ if (PWL_DTE_EDITION === 'pro') {
 	}
 }
 
-if (!class_exists('WooCommerce')) {
-	add_action('admin_notices', static function () {
-		echo '<div class="error"><p><strong>PWL DTE for Bsale</strong> '
-			. esc_html__('requires WooCommerce to be installed and active.', 'pwl-dte-for-bsale')
-			. '</p></div>';
-	});
-	return;
-}
-
 require_once PWL_DTE_DIR . 'vendor/autoload.php';
 
 register_activation_hook(__FILE__,   ['PwlDte\Core\Activator',   'activate']);
 register_deactivation_hook(__FILE__, ['PwlDte\Core\Deactivator', 'deactivate']);
 
-PwlDte\Core\Plugin::run();
+/*
+ * WooCommerce may load after this file (plugin order is often alphabetical).
+ * Checking class_exists( 'WooCommerce' ) here is unreliable; wait until plugins_loaded.
+ */
+add_action(
+	'plugins_loaded',
+	static function (): void {
+		if (!class_exists('WooCommerce')) {
+			add_action(
+				'admin_notices',
+				static function (): void {
+					echo '<div class="notice notice-error"><p><strong>PWL DTE for Bsale</strong> '
+						. esc_html__('requires WooCommerce to be installed and active.', 'pwl-dte-for-bsale')
+						. '</p></div>';
+				}
+			);
+			return;
+		}
+
+		PwlDte\Core\Plugin::run();
+	},
+	0
+);

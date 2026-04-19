@@ -19,6 +19,17 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'pluginwordpresslatam/pwl-license-client' => array(
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '29a5f854fc64a00515153c959fa3b1e328c4b4d0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../pluginwordpresslatam/pwl-license-client',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'dev_requirement' => false,
+        ),
         'pwl/wp-admin-design-system' => array(
             'pretty_version' => 'v1.0.5',
             'version' => '1.0.5.0',

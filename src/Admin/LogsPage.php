@@ -43,13 +43,13 @@ class LogsPage extends BasePage
 		);
 		wp_localize_script('pwl-dte-for-bsale-logs', 'pwlDteLogs', [
 			'labels' => [
-				'confirmRetry'    => __('¿Reintentar generación del DTE para esta orden?', 'pwl-dte-for-bsale'),
-				'processing'      => __('Procesando...', 'pwl-dte-for-bsale'),
-				'success'         => __('DTE regenerado exitosamente', 'pwl-dte-for-bsale'),
+				'confirmRetry'    => __('Retry DTE generation for this order?', 'pwl-dte-for-bsale'),
+				'processing'      => __('Processing…', 'pwl-dte-for-bsale'),
+				'success'         => __('DTE regenerated successfully', 'pwl-dte-for-bsale'),
 				'errorPrefix'     => __('Error: ', 'pwl-dte-for-bsale'),
-				'unknownError'    => __('Error desconocido', 'pwl-dte-for-bsale'),
-				'connectionError' => __('Error de conexión', 'pwl-dte-for-bsale'),
-				'retry'           => __('Reintentar', 'pwl-dte-for-bsale'),
+				'unknownError'    => __('Unknown error', 'pwl-dte-for-bsale'),
+				'connectionError' => __('Connection error', 'pwl-dte-for-bsale'),
+				'retry'           => __('Retry', 'pwl-dte-for-bsale'),
 			],
 		]);
 	}
@@ -58,8 +58,8 @@ class LogsPage extends BasePage
 	{
 		add_submenu_page(
 			"pwl-dte-for-bsale",
-			__("Bsale DTE Logs", "pwl-dte-for-bsale"),
-			__("DTE Logs", "pwl-dte-for-bsale"),
+			__('Bsale DTE logs', 'pwl-dte-for-bsale'),
+			__('DTE logs', 'pwl-dte-for-bsale'),
 			"manage_woocommerce",
 			"pwl-dte-for-bsale-logs",
 			[$this, "render_page"],
@@ -70,8 +70,8 @@ class LogsPage extends BasePage
 	{
 		static $c = null;
 		return $c ??= [
-			"title" => __("Logs DTE", "pwl-dte-for-bsale"),
-			"desc"  => __("Historial de documentos tributarios electrónicos generados.", "pwl-dte-for-bsale"),
+			"title" => __('DTE logs', 'pwl-dte-for-bsale'),
+			"desc"  => __('History of generated electronic tax documents.', 'pwl-dte-for-bsale'),
 			"cap"   => "manage_woocommerce",
 		];
 	}
@@ -101,7 +101,7 @@ class LogsPage extends BasePage
 					<span style="font-size:13px;color:#666;">
 						<?php printf(
       	/* translators: 1: current count, 2: total count */
-      	esc_html__('Mostrando %1$d de %2$d registros', "pwl-dte-for-bsale"),
+      	esc_html__('Showing %1$d of %2$d records', 'pwl-dte-for-bsale'),
       	count($logs),
       	absint($total),
       ); ?>
@@ -111,24 +111,24 @@ class LogsPage extends BasePage
 					<table class="wads-table">
 						<thead>
 							<tr>
-								<th><?php esc_html_e("Orden", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Tipo", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Folio", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Estado", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Error", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Intentos", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Fecha", "pwl-dte-for-bsale"); ?></th>
-								<th><?php esc_html_e("Acciones", "pwl-dte-for-bsale"); ?></th>
+								<th><?php esc_html_e('Order', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Type', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Folio', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Status', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Error', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Attempts', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Date', 'pwl-dte-for-bsale'); ?></th>
+								<th><?php esc_html_e('Actions', 'pwl-dte-for-bsale'); ?></th>
 							</tr>
 						</thead>
 						<tbody>
 							<?php if (empty($logs)): ?>
 								<tr>
 									<td colspan="8">
-										<?php BasePage::echo_component(Components::empty_state(__("Sin registros", "pwl-dte-for-bsale"), [
+										<?php BasePage::echo_component(Components::empty_state(__('No records', 'pwl-dte-for-bsale'), [
           	"desc" => __(
-          		"No hay documentos que coincidan con el filtro aplicado.",
-          		"pwl-dte-for-bsale",
+          		'No documents match the current filter.',
+          		'pwl-dte-for-bsale',
           	),
           ])); ?>
 									</td>
@@ -164,7 +164,7 @@ class LogsPage extends BasePage
             ])); ?>
 											<?php endif; ?>
 											<?php if (in_array($log["status"], ["error", "pending"], true)): ?>
-												<?php BasePage::echo_component(Components::button(__("Reintentar", "pwl-dte-for-bsale"), "secondary", [
+												<?php BasePage::echo_component(Components::button(__('Retry', 'pwl-dte-for-bsale'), "secondary", [
             	"size" => "sm",
             	"attrs" => [
             		"class" =>
@@ -216,10 +216,10 @@ class LogsPage extends BasePage
 
 		// Labels for count links re-use the status config but pull only the label
 		$labels = [
-			"success" => __("Exitosos", "pwl-dte-for-bsale"),
-			"error" => __("Errores", "pwl-dte-for-bsale"),
-			"pending" => __("Pendientes", "pwl-dte-for-bsale"),
-			"retrying" => __("Reintentando", "pwl-dte-for-bsale"),
+			"success" => __('Successful', 'pwl-dte-for-bsale'),
+			"error" => __('Errors', 'pwl-dte-for-bsale'),
+			"pending" => __('Pending', 'pwl-dte-for-bsale'),
+			"retrying" => __('Retrying', 'pwl-dte-for-bsale'),
 		];
 		?>
 		<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;align-items:center;">
@@ -246,7 +246,7 @@ class LogsPage extends BasePage
 				'<a href="%s" style="text-decoration:none;">%s</a>',
 				esc_url(add_query_arg(["page" => "pwl-dte-for-bsale-logs"], admin_url("admin.php"))),
 				wp_kses(
-					Components::badge(__("Ver todos", "pwl-dte-for-bsale"), "default"),
+					Components::badge(__('View all', 'pwl-dte-for-bsale'), "default"),
 					BasePage::allowed_component_html(),
 				),
 			);
@@ -283,10 +283,10 @@ class LogsPage extends BasePage
 				? '<a class="wads-page-item" href="' .
 					$page_url($current - 1) .
 					'">← ' .
-					esc_html__("Anterior", "pwl-dte-for-bsale") .
+					esc_html__('Previous', 'pwl-dte-for-bsale') .
 					"</a>"
 				: '<span class="wads-page-item is-disabled">← ' .
-					esc_html__("Anterior", "pwl-dte-for-bsale") .
+					esc_html__('Previous', 'pwl-dte-for-bsale') .
 					"</span>";
 
 		$next =
@@ -294,10 +294,10 @@ class LogsPage extends BasePage
 				? '<a class="wads-page-item" href="' .
 					$page_url($current + 1) .
 					'">' .
-					esc_html__("Siguiente", "pwl-dte-for-bsale") .
+					esc_html__('Next', 'pwl-dte-for-bsale') .
 					" →</a>"
 				: '<span class="wads-page-item is-disabled">' .
-					esc_html__("Siguiente", "pwl-dte-for-bsale") .
+					esc_html__('Next', 'pwl-dte-for-bsale') .
 					" →</span>";
 
 		$delta = 2;

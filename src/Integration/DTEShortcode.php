@@ -40,9 +40,9 @@ class DTEShortcode
 	private function render_dte_card(array $doc): string
 	{
 		$labels       = [
-			"boleta"       => __("Boleta", 'pwl-dte-for-bsale'),
-			"factura"      => __("Factura", 'pwl-dte-for-bsale'),
-			"nota_credito" => __("Nota de Crédito", 'pwl-dte-for-bsale'),
+			"boleta"       => __('Boleta (receipt)', 'pwl-dte-for-bsale'),
+			"factura"      => __('Factura (invoice)', 'pwl-dte-for-bsale'),
+			"nota_credito" => __('Credit note', 'pwl-dte-for-bsale'),
 		];
 		$type_display = $labels[$doc["document_type"]] ?? ucfirst($doc["document_type"]);
 
@@ -54,23 +54,23 @@ class DTEShortcode
 				<h3 class="pwl-dte-for-bsale-dte-card__title">
 					<?php printf(
 						/* translators: %s = document type (Boleta / Factura) */
-						esc_html__("%s Electrónica Generada", 'pwl-dte-for-bsale'),
+						esc_html__('%s issued', 'pwl-dte-for-bsale'),
 						esc_html($type_display),
 					); ?>
 				</h3>
 				<p class="pwl-dte-for-bsale-dte-card__folio">
-					<strong><?php esc_html_e("Folio:", 'pwl-dte-for-bsale'); ?></strong>
+					<strong><?php esc_html_e('Folio:', 'pwl-dte-for-bsale'); ?></strong>
 					<?php echo esc_html($doc["folio"] ?? "—"); ?>
 				</p>
 				<div class="pwl-dte-for-bsale-dte-card__actions">
 					<?php if (!empty($doc["pdf_url"])): ?>
 						<a href="<?php echo esc_url($doc["pdf_url"]); ?>" class="pwl-dte-for-bsale-btn pwl-dte-for-bsale-btn--primary" target="_blank" rel="noopener noreferrer">
-							📥 <?php esc_html_e("Descargar PDF", 'pwl-dte-for-bsale'); ?>
+							📥 <?php esc_html_e('Download PDF', 'pwl-dte-for-bsale'); ?>
 						</a>
 					<?php endif; ?>
 					<?php if (!empty($doc["public_url"])): ?>
 						<a href="<?php echo esc_url($doc["public_url"]); ?>" class="pwl-dte-for-bsale-btn pwl-dte-for-bsale-btn--secondary" target="_blank" rel="noopener noreferrer">
-							<?php esc_html_e("Ver documento online", 'pwl-dte-for-bsale'); ?>
+							<?php esc_html_e('View document online', 'pwl-dte-for-bsale'); ?>
 						</a>
 					<?php endif; ?>
 				</div>

@@ -28,7 +28,7 @@ class CheckoutFields
 	{
 		$fields["billing"]["billing_needs_invoice"] = [
 			"type"     => "checkbox",
-			"label"    => __("Necesito factura electrónica", 'pwl-dte-for-bsale'),
+			"label"    => __('I need an electronic invoice (factura)', 'pwl-dte-for-bsale'),
 			"required" => false,
 			"class"    => ["form-row-wide"],
 			"priority" => 25,
@@ -36,7 +36,7 @@ class CheckoutFields
 		$fields["billing"]["billing_rut"] = [
 			"type"              => "text",
 			"label"             => __("RUT", 'pwl-dte-for-bsale'),
-			"placeholder"       => __("Ej: 12.345.678-9", 'pwl-dte-for-bsale'),
+			"placeholder"       => __('e.g. 12.345.678-9', 'pwl-dte-for-bsale'),
 			"required"          => false,
 			"class"             => ["form-row-first", "pwl-dte-for-bsale-invoice-field"],
 			"priority"          => 26,
@@ -44,16 +44,16 @@ class CheckoutFields
 		];
 		$fields["billing"]["billing_company_name"] = [
 			"type"        => "text",
-			"label"       => __("Razón Social", 'pwl-dte-for-bsale'),
-			"placeholder" => __("Nombre de la empresa", 'pwl-dte-for-bsale'),
+			"label"       => __('Company name (Razón Social)', 'pwl-dte-for-bsale'),
+			"placeholder" => __('Legal business name', 'pwl-dte-for-bsale'),
 			"required"    => false,
 			"class"       => ["form-row-last", "pwl-dte-for-bsale-invoice-field"],
 			"priority"    => 27,
 		];
 		$fields["billing"]["billing_activity"] = [
 			"type"        => "text",
-			"label"       => __("Giro", 'pwl-dte-for-bsale'),
-			"placeholder" => __("Actividad comercial", 'pwl-dte-for-bsale'),
+			"label"       => __('Business activity (Giro)', 'pwl-dte-for-bsale'),
+			"placeholder" => __('Commercial activity', 'pwl-dte-for-bsale'),
 			"required"    => false,
 			"class"       => ["form-row-wide", "pwl-dte-for-bsale-invoice-field"],
 			"priority"    => 28,
@@ -69,7 +69,7 @@ class CheckoutFields
 
 		woocommerce_register_additional_checkout_field([
 			"id"       => "pwl-dte-for-bsale/needs-invoice",
-			"label"    => __("Necesito factura electrónica", 'pwl-dte-for-bsale'),
+			"label"    => __('I need an electronic invoice (factura)', 'pwl-dte-for-bsale'),
 			"location" => "contact",
 			"type"     => "checkbox",
 			"required" => false,
@@ -84,14 +84,14 @@ class CheckoutFields
 		]);
 		woocommerce_register_additional_checkout_field([
 			"id"       => "pwl-dte-for-bsale/company-name",
-			"label"    => __("Razón Social", 'pwl-dte-for-bsale'),
+			"label"    => __('Company name (Razón Social)', 'pwl-dte-for-bsale'),
 			"location" => "contact",
 			"type"     => "text",
 			"required" => false,
 		]);
 		woocommerce_register_additional_checkout_field([
 			"id"       => "pwl-dte-for-bsale/activity",
-			"label"    => __("Giro", 'pwl-dte-for-bsale'),
+			"label"    => __('Business activity (Giro)', 'pwl-dte-for-bsale'),
 			"location" => "contact",
 			"type"     => "text",
 			"required" => false,
@@ -106,13 +106,13 @@ class CheckoutFields
 
 		$rut = trim($data["billing_rut"] ?? "");
 		if (empty($rut)) {
-			$errors->add("billing_rut", __("El RUT es obligatorio para emitir factura.", 'pwl-dte-for-bsale'));
+			$errors->add("billing_rut", __('RUT is required to issue an invoice.', 'pwl-dte-for-bsale'));
 		} elseif (!\PwlDte\Core\RutHelper::validate_rut($rut)) {
-			$errors->add("billing_rut", __("El RUT ingresado no es válido.", 'pwl-dte-for-bsale'));
+			$errors->add("billing_rut", __('The RUT entered is not valid.', 'pwl-dte-for-bsale'));
 		}
 
 		if (empty(trim($data["billing_company_name"] ?? ""))) {
-			$errors->add("billing_company_name", __("La Razón Social es obligatoria para emitir factura.", 'pwl-dte-for-bsale'));
+			$errors->add("billing_company_name", __('Company name (Razón Social) is required to issue an invoice.', 'pwl-dte-for-bsale'));
 		}
 	}
 
@@ -132,12 +132,12 @@ class CheckoutFields
 		if ($field_key === "pwl-dte-for-bsale/rut") {
 			$rut = trim((string) $field_value);
 			if (empty($rut)) {
-				$errors->add("pwl-dte-for-bsale/rut", __("El RUT es obligatorio para emitir factura.", 'pwl-dte-for-bsale'));
+				$errors->add("pwl-dte-for-bsale/rut", __('RUT is required to issue an invoice.', 'pwl-dte-for-bsale'));
 			} elseif (!\PwlDte\Core\RutHelper::validate_rut($rut)) {
-				$errors->add("pwl-dte-for-bsale/rut", __("El RUT ingresado no es válido.", 'pwl-dte-for-bsale'));
+				$errors->add("pwl-dte-for-bsale/rut", __('The RUT entered is not valid.', 'pwl-dte-for-bsale'));
 			}
 		} elseif ($field_key === "pwl-dte-for-bsale/company-name" && empty(trim((string) $field_value))) {
-			$errors->add("pwl-dte-for-bsale/company-name", __("La Razón Social es obligatoria para emitir factura.", 'pwl-dte-for-bsale'));
+			$errors->add("pwl-dte-for-bsale/company-name", __('Company name (Razón Social) is required to issue an invoice.', 'pwl-dte-for-bsale'));
 		}
 	}
 
@@ -212,12 +212,12 @@ class CheckoutFields
 
 		$fields = [
 			"_billing_rut"          => __("RUT:", 'pwl-dte-for-bsale'),
-			"_billing_company_name" => __("Razón Social:", 'pwl-dte-for-bsale'),
-			"_billing_activity"     => __("Giro:", 'pwl-dte-for-bsale'),
+			"_billing_company_name" => __('Company name:', 'pwl-dte-for-bsale'),
+			"_billing_activity"     => __('Business activity:', 'pwl-dte-for-bsale'),
 		];
 
 		echo '<div class="order_data_column" style="margin-top:12px;">';
-		echo "<h3>" . esc_html__("Datos de Facturación", 'pwl-dte-for-bsale') . "</h3>";
+		echo "<h3>" . esc_html__('Billing details', 'pwl-dte-for-bsale') . "</h3>";
 		foreach ($fields as $meta_key => $label) {
 			$value = $order->get_meta($meta_key);
 			if ($value) {
@@ -235,12 +235,12 @@ class CheckoutFields
 
 		$fields = [
 			"_billing_rut"          => __("RUT:", 'pwl-dte-for-bsale'),
-			"_billing_company_name" => __("Razón Social:", 'pwl-dte-for-bsale'),
-			"_billing_activity"     => __("Giro:", 'pwl-dte-for-bsale'),
+			"_billing_company_name" => __('Company name:', 'pwl-dte-for-bsale'),
+			"_billing_activity"     => __('Business activity:', 'pwl-dte-for-bsale'),
 		];
 
 		if ($plain_text) {
-			echo "\n" . esc_html(strtoupper(__("Datos de Facturación", 'pwl-dte-for-bsale'))) . "\n";
+			echo "\n" . esc_html(strtoupper(__('Billing details', 'pwl-dte-for-bsale'))) . "\n";
 			foreach ($fields as $meta_key => $label) {
 				$value = $order->get_meta($meta_key);
 				if ($value) {
@@ -250,7 +250,7 @@ class CheckoutFields
 			return;
 		}
 		?>
-		<h2><?php esc_html_e("Datos de Facturación", 'pwl-dte-for-bsale'); ?></h2>
+		<h2><?php esc_html_e('Billing details', 'pwl-dte-for-bsale'); ?></h2>
 		<ul>
 			<?php foreach ($fields as $meta_key => $label): ?>
 				<?php $value = $order->get_meta($meta_key); ?>
@@ -269,16 +269,16 @@ class CheckoutFields
 		$rut = sanitize_text_field(wp_unslash($_POST["rut"] ?? ""));
 
 		if (empty($rut)) {
-			wp_send_json_error(["message" => __("RUT vacío", 'pwl-dte-for-bsale')]);
+			wp_send_json_error(["message" => __('RUT is empty', 'pwl-dte-for-bsale')]);
 		}
 
 		if (\PwlDte\Core\RutHelper::validate_rut($rut)) {
 			wp_send_json_success([
-				"message"   => __("RUT válido", 'pwl-dte-for-bsale'),
+				"message"   => __('Valid RUT', 'pwl-dte-for-bsale'),
 				"formatted" => \PwlDte\Core\RutHelper::format_rut($rut),
 			]);
 		} else {
-			wp_send_json_error(["message" => __("RUT inválido", 'pwl-dte-for-bsale')]);
+			wp_send_json_error(["message" => __('Invalid RUT', 'pwl-dte-for-bsale')]);
 		}
 	}
 
@@ -294,9 +294,9 @@ class CheckoutFields
 			"ajaxurl" => admin_url("admin-ajax.php"),
 			"nonce"   => wp_create_nonce("pwl_dte_validate_rut"),
 			"i18n"    => [
-				"validating"  => __("Validando…", 'pwl-dte-for-bsale'),
-				"rut_valid"   => __("RUT válido", 'pwl-dte-for-bsale'),
-				"rut_invalid" => __("RUT inválido", 'pwl-dte-for-bsale'),
+				"validating"  => __('Validating…', 'pwl-dte-for-bsale'),
+				"rut_valid"   => __('Valid RUT', 'pwl-dte-for-bsale'),
+				"rut_invalid" => __('Invalid RUT', 'pwl-dte-for-bsale'),
 			],
 		];
 

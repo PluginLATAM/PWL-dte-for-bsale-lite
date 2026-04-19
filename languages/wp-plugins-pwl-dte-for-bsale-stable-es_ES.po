@@ -1,0 +1,841 @@
+# Translation of Plugins - PWL DTE for Bsale - Stable (latest release) in Spanish (Spain)
+# This file is distributed under the same license as the Plugins - PWL DTE for Bsale - Stable (latest release) package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Plugins - PWL DTE for Bsale - Stable (latest release)\n"
+"PO-Revision-Date: +0000\n"
+"Language: es_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: GlotPress/4.0.3\n"
+
+#. translators: 1: updated count, 2: error count, 3: skipped count
+#: src/Integration/StockSync.php:194
+msgid "Sync finished: %1$d updated, %2$d errors, %3$d skipped"
+msgstr "Sincronización finalizada: %1$d actualizados, %2$d errores, %3$d omitidos"
+
+#: src/Integration/DTEShortcode.php:68
+msgid "Download PDF"
+msgstr "Descargar PDF"
+
+#. translators: %s = document type (Boleta / Factura)
+#: src/Integration/DTEShortcode.php:57
+msgid "%s issued"
+msgstr "%s electrónica generada"
+
+#: src/Integration/DTEShortcode.php:45
+msgid "Credit note"
+msgstr "Nota de crédito"
+
+#: src/Integration/DocumentEngine.php:341
+msgid "Email sent"
+msgstr "Correo enviado"
+
+#: src/Integration/DocumentEngine.php:332
+msgid "There is no successful DTE for this order"
+msgstr "No hay ningún DTE correcto para este pedido"
+
+#: src/Integration/DocumentEngine.php:327
+msgid "Order not found"
+msgstr "Pedido no encontrado"
+
+#: src/Integration/DocumentEngine.php:311
+msgid "Could not regenerate DTE. Check the logs."
+msgstr "No se pudo regenerar el DTE. Revisa los registros."
+
+#: src/Integration/DocumentEngine.php:305
+msgid "A successful DTE already exists for this order"
+msgstr "Ya existe un DTE correcto para este pedido"
+
+#: src/Integration/DocumentEngine.php:300
+msgid "Invalid order ID"
+msgstr "ID de pedido no válido"
+
+#. translators: 1: first name, 2: document number, 3: public URL, 4: PDF URL
+#: src/Integration/DocumentEngine.php:269
+msgid ""
+"Hello %1$s,\n"
+"\n"
+"Your tax document has been generated successfully.\n"
+"\n"
+"Document number: %2$s\n"
+"View document: %3$s\n"
+"Download PDF: %4$s\n"
+"\n"
+"Thank you for your purchase."
+msgstr ""
+"Hola %1$s,\n"
+"\n"
+"Se generó correctamente tu documento tributario.\n"
+"\n"
+"Número de documento: %2$s\n"
+"Ver documento: %3$s\n"
+"Descargar PDF: %4$s\n"
+"\n"
+"Gracias por tu compra."
+
+#. translators: %s: order number
+#: src/Integration/DocumentEngine.php:264
+msgid "Tax document — Order #%s"
+msgstr "Documento tributario — Pedido n.º %s"
+
+#. translators: %s: Bsale API or validation error message
+#: src/Integration/DocumentEngine.php:218 src/Integration/DocumentEngine.php:252
+msgid "Error generating DTE in Bsale: %s"
+msgstr "Error al generar el DTE en Bsale: %s"
+
+#. translators: %s: document folio number
+#: src/Integration/DocumentEngine.php:198
+msgid "DTE generated successfully in Bsale. Folio: %s"
+msgstr "DTE generado correctamente en Bsale. Folio: %s"
+
+#: src/Integration/DocumentEngine.php:125
+msgid "Shipping"
+msgstr "Envío"
+
+#: src/Integration/CheckoutFields.php:297
+msgid "Validating…"
+msgstr "Validando…"
+
+#: src/Integration/CheckoutFields.php:281 src/Integration/CheckoutFields.php:299
+msgid "Invalid RUT"
+msgstr "RUT no válido"
+
+#: src/Integration/CheckoutFields.php:277 src/Integration/CheckoutFields.php:298
+msgid "Valid RUT"
+msgstr "RUT válido"
+
+#: src/Integration/CheckoutFields.php:272
+msgid "RUT is empty"
+msgstr "RUT vacío"
+
+#: src/Integration/CheckoutFields.php:220 src/Integration/CheckoutFields.php:243 src/Integration/CheckoutFields.php:253
+msgid "Billing details"
+msgstr "Datos de facturación"
+
+#: src/Integration/CheckoutFields.php:216 src/Integration/CheckoutFields.php:239
+msgid "Business activity:"
+msgstr "Giro:"
+
+#: src/Integration/CheckoutFields.php:215 src/Integration/CheckoutFields.php:238
+msgid "Company name:"
+msgstr "Razón social:"
+
+#: src/Integration/CheckoutFields.php:115 src/Integration/CheckoutFields.php:140
+msgid "Company name (Razón Social) is required to issue an invoice."
+msgstr "La razón social es obligatoria para emitir factura."
+
+#: src/Integration/CheckoutFields.php:111 src/Integration/CheckoutFields.php:137
+msgid "The RUT entered is not valid."
+msgstr "El RUT introducido no es válido."
+
+#: src/Integration/CheckoutFields.php:109 src/Integration/CheckoutFields.php:135
+msgid "RUT is required to issue an invoice."
+msgstr "El RUT es obligatorio para emitir factura."
+
+#: src/Integration/CheckoutFields.php:56
+msgid "Commercial activity"
+msgstr "Actividad comercial"
+
+#: src/Integration/CheckoutFields.php:55 src/Integration/CheckoutFields.php:94
+msgid "Business activity (Giro)"
+msgstr "Giro"
+
+#: src/Integration/CheckoutFields.php:48
+msgid "Legal business name"
+msgstr "Razón social o nombre de la empresa"
+
+#: src/Integration/CheckoutFields.php:47 src/Integration/CheckoutFields.php:87
+msgid "Company name (Razón Social)"
+msgstr "Razón social"
+
+#: src/Integration/CheckoutFields.php:39
+msgid "e.g. 12.345.678-9"
+msgstr "p. ej. 12.345.678-9"
+
+#: src/Integration/CheckoutFields.php:31 src/Integration/CheckoutFields.php:72
+msgid "I need an electronic invoice (factura)"
+msgstr "Necesito factura electrónica"
+
+#: src/Admin/Settings.php:525
+msgid "Could not load offices"
+msgstr "No se pudieron cargar las oficinas"
+
+#: src/Admin/Settings.php:477
+msgid "Successfully connected to Bsale"
+msgstr "Conexión con Bsale establecida correctamente"
+
+#: src/Admin/Settings.php:468
+msgid "Configure an API token first"
+msgstr "Primero configura un token de API"
+
+#. translators: %s: office ID
+#: src/Admin/Settings.php:409
+msgid "Choose which office issues the DTE based on how the order was fulfilled. If unset, office #%s (from the Connection tab) is used."
+msgstr "Elige qué oficina emite el DTE según cómo se cumplió el pedido. Si no se define, se usa la oficina n.º %s (pestaña Conexión)."
+
+#: src/Admin/Settings.php:405
+msgid "DTE office by shipping method"
+msgstr "Oficina emisora del DTE según método de envío"
+
+#: src/Admin/Settings.php:398
+msgid "Bsale office used to read stock for WooCommerce. Set your main warehouse here if it differs from the issuing office."
+msgstr "Oficina de Bsale usada para leer el stock en WooCommerce. Indica aquí tu depósito principal si es distinto de la oficina emisora."
+
+#. translators: %s: office ID number
+#: src/Admin/Settings.php:393 src/Admin/Settings.php:438
+msgid "Office #%s"
+msgstr "Oficina n.º %s"
+
+#: src/Admin/Settings.php:384
+msgid "Office for stock"
+msgstr "Oficina para el stock"
+
+#: src/Admin/Settings.php:377
+msgid "Load offices from Bsale"
+msgstr "Cargar oficinas desde Bsale"
+
+#: src/Admin/Settings.php:373
+msgid "If you only have one office you do not need to configure anything here. Use this screen when you have a warehouse and a retail store in Bsale."
+msgstr "Si solo tienes una oficina no necesitas configurar nada aquí. Usa esta pantalla cuando tengas un depósito y una tienda en Bsale."
+
+#: src/Admin/Settings.php:371
+msgid "Multi-office"
+msgstr "Varias oficinas"
+
+#: src/Admin/Settings.php:367
+msgid "Local pickup with location selection (WC 8.x+)"
+msgstr "Retiro en tienda con selección de ubicación (WC 8.x+)"
+
+#: src/Admin/Settings.php:366
+msgid "Local pickup (classic method)"
+msgstr "Retiro en tienda (método clásico)"
+
+#: src/Admin/Settings.php:365
+msgid "Free shipping"
+msgstr "Envío gratis"
+
+#: src/Admin/Settings.php:364
+msgid "Flat rate (home delivery)"
+msgstr "Tarifa plana (envío a domicilio)"
+
+#. translators: %s: office ID number
+#: src/Admin/Settings.php:359
+msgid "-- Same as Connection (office #%s) --"
+msgstr "-- Igual que Conexión (oficina n.º %s) --"
+
+#: src/Admin/Settings.php:344
+msgid "Errors only"
+msgstr "Solo errores"
+
+#: src/Admin/Settings.php:343
+msgid "None"
+msgstr "Ninguno"
+
+#: src/Admin/Settings.php:341
+msgid "Log level"
+msgstr "Nivel de registro"
+
+#: src/Admin/Settings.php:337
+msgid "Maximum wait time for Bsale API responses (5–120)."
+msgstr "Tiempo máximo de espera de respuestas de la API de Bsale (5–120)."
+
+#: src/Admin/Settings.php:336
+msgid "API timeout (seconds)"
+msgstr "Tiempo de espera de la API (segundos)"
+
+#: src/Admin/Settings.php:332
+msgid "Number of retries if DTE generation fails (0–10)."
+msgstr "Cantidad de reintentos si falla la generación del DTE (0–10)."
+
+#: src/Admin/Settings.php:331
+msgid "Automatic retries"
+msgstr "Reintentos automáticos"
+
+#: src/Admin/Settings.php:328
+msgid "Advanced settings"
+msgstr "Ajustes avanzados"
+
+#: src/Admin/Settings.php:318
+msgid "The Pro edition adds cron stock sync, real-time webhooks, and a dedicated stock office."
+msgstr "La edición Pro agrega sincronización de stock por cron, webhooks en tiempo real y una oficina dedicada para el stock."
+
+#: src/Admin/Settings.php:315
+msgid "Advanced sync available in Pro"
+msgstr "Sincronización avanzada disponible en Pro"
+
+#: src/Admin/Settings.php:301
+msgid "Copy"
+msgstr "Copiar"
+
+#. translators: %s: URL to the webhook debug page
+#: src/Admin/Settings.php:297
+msgid "Configure in Bsale → Webhooks. See the <a href=\"%s\">debug page</a>."
+msgstr "Configura en Bsale → Webhooks. Consulta la <a href=\"%s\">página de depuración</a>."
+
+#: src/Admin/Settings.php:291
+msgid "Regenerate"
+msgstr "Regenerar"
+
+#: src/Admin/Settings.php:287
+msgid "Enable Bsale webhooks"
+msgstr "Activar webhooks de Bsale"
+
+#: src/Admin/Settings.php:275
+msgid "Sync now"
+msgstr "Sincronizar ahora"
+
+#: src/Admin/Settings.php:273
+msgid "May take several minutes with large catalogs."
+msgstr "Puede tardar varios minutos con catálogos grandes."
+
+#: src/Admin/Settings.php:272
+msgid "Manual sync"
+msgstr "Sincronización manual"
+
+#: src/Admin/Settings.php:270 src/Integration/StockSync.php:199
+msgid "Never"
+msgstr "Nunca"
+
+#: src/Admin/Settings.php:266
+msgid "Once a day"
+msgstr "Una vez al día"
+
+#: src/Admin/Settings.php:265
+msgid "Twice a day"
+msgstr "Dos veces al día"
+
+#: src/Admin/Settings.php:264
+msgid "Every hour"
+msgstr "Cada hora"
+
+#: src/Admin/Settings.php:262
+msgid "Enable automatic synchronization"
+msgstr "Activar sincronización automática"
+
+#: src/Admin/Settings.php:262 src/Admin/Settings.php:306
+msgid "Stock sync"
+msgstr "Sincronización de stock"
+
+#: src/Admin/Settings.php:248
+msgid "Loaded automatically when you click."
+msgstr "Se carga automáticamente al hacer clic."
+
+#: src/Admin/Settings.php:248
+msgid "Price list"
+msgstr "Lista de precios"
+
+#: src/Admin/Settings.php:247
+msgid "Automatic options"
+msgstr "Opciones automáticas"
+
+#: src/Admin/Settings.php:246
+msgid "Default type when the customer does not request an invoice."
+msgstr "Tipo predeterminado cuando el cliente no solicita factura."
+
+#: src/Admin/Settings.php:246
+msgid "Document type"
+msgstr "Tipo de documento"
+
+#: src/Admin/Settings.php:244
+msgid "Configure how boletas and electronic invoices are generated."
+msgstr "Configura cómo se generan boletas y facturas electrónicas."
+
+#: src/Admin/Settings.php:243
+msgid "Tax documents"
+msgstr "Documentos tributarios"
+
+#. translators: %s: price list ID number
+#: src/Admin/Settings.php:239
+msgid "List #%s (click to reload)"
+msgstr "Lista n.º %s (clic para recargar)"
+
+#: src/Admin/Settings.php:236
+msgid "-- Select --"
+msgstr "-- Seleccionar --"
+
+#: src/Admin/Settings.php:234
+msgid "Deducts stock in Bsale when the document is issued."
+msgstr "Descuenta stock en Bsale cuando se emite el documento."
+
+#: src/Admin/Settings.php:234
+msgid "Deduct stock when issuing"
+msgstr "Descontar stock al emitir"
+
+#: src/Admin/Settings.php:233
+msgid "Bsale emails the DTE to the customer when it is issued."
+msgstr "Bsale envía el DTE por correo al cliente cuando se emite."
+
+#: src/Admin/Settings.php:233
+msgid "Send by email automatically"
+msgstr "Enviar por correo automáticamente"
+
+#: src/Admin/Settings.php:232
+msgid "Bsale declares the document to the SII when it is issued."
+msgstr "Bsale declara el documento al SII cuando se emite."
+
+#: src/Admin/Settings.php:232
+msgid "Declare to SII automatically"
+msgstr "Declarar al SII automáticamente"
+
+#: src/Admin/Settings.php:230 src/Integration/DTEShortcode.php:44
+msgid "Factura (invoice)"
+msgstr "Factura"
+
+#: src/Admin/Settings.php:227 src/Integration/DTEShortcode.php:43
+msgid "Boleta (receipt)"
+msgstr "Boleta"
+
+#: src/Admin/Settings.php:210
+msgid "Connection test"
+msgstr "Prueba de conexión"
+
+#: src/Admin/Settings.php:206
+msgid "Bsale office ID (usually 1)"
+msgstr "ID de oficina en Bsale (normalmente 1)"
+
+#: src/Admin/Settings.php:200
+msgid "Bsale → Settings → Integrations → API Access Token"
+msgstr "Bsale → Configuración → Integraciones → Token de acceso API"
+
+#: src/Admin/Settings.php:196
+msgid "Credentials to connect to your Bsale account."
+msgstr "Credenciales para conectar tu cuenta de Bsale."
+
+#: src/Admin/Settings.php:195
+msgid "Bsale API"
+msgstr "API de Bsale"
+
+#: src/Admin/Settings.php:190
+msgid "Test connection"
+msgstr "Probar conexión"
+
+#: src/Admin/Settings.php:170
+msgid "Offices"
+msgstr "Oficinas"
+
+#: src/Admin/Settings.php:165
+msgid "Advanced"
+msgstr "Avanzado"
+
+#: src/Admin/Settings.php:162
+msgid "Connection"
+msgstr "Conexión"
+
+#: src/Admin/Settings.php:149
+msgid "Save settings"
+msgstr "Guardar ajustes"
+
+#: src/Admin/Settings.php:112
+msgid "Connection, documents, and sync with Bsale"
+msgstr "Conexión, documentos y sincronización con Bsale"
+
+#: src/Admin/Settings.php:61
+msgid "Connection error."
+msgstr "Error de conexión."
+
+#: src/Admin/Settings.php:60
+msgid "Offices loaded."
+msgstr "Oficinas cargadas."
+
+#: src/Admin/Settings.php:59
+msgid "unknown error"
+msgstr "error desconocido"
+
+#: src/Admin/Settings.php:57
+msgid "Loading…"
+msgstr "Cargando…"
+
+#: src/Admin/OrderMetabox.php:160 src/Admin/OrderMetabox.php:161
+msgid "Resend email"
+msgstr "Reenviar correo"
+
+#: src/Admin/OrderMetabox.php:150
+msgid "View online"
+msgstr "Ver en línea"
+
+#: src/Admin/OrderMetabox.php:147
+msgid "View PDF"
+msgstr "Ver PDF"
+
+#: src/Admin/OrderMetabox.php:140
+msgid "The DTE is being processed…"
+msgstr "El DTE se está procesando…"
+
+#. translators: %s: datetime
+#: src/Admin/OrderMetabox.php:130
+msgid "Updated"
+msgstr "Actualizado"
+
+#: src/Admin/OrderMetabox.php:96
+msgid "No DTE has been generated for this order."
+msgstr "No se ha generado un DTE para este pedido."
+
+#: src/Admin/OrderMetabox.php:60
+msgid "Bsale — Tax document"
+msgstr "Bsale — Documento tributario"
+
+#: src/Admin/OrderMetabox.php:47
+msgid "Operation successful"
+msgstr "Operación exitosa"
+
+#: src/Admin/OrderMetabox.php:45
+msgid "Confirm this action?"
+msgstr "¿Confirmar esta acción?"
+
+#: src/Admin/LogsPage.php:297 src/Admin/LogsPage.php:300
+msgid "Next"
+msgstr "Siguiente"
+
+#: src/Admin/LogsPage.php:286 src/Admin/LogsPage.php:289
+msgid "Previous"
+msgstr "Anterior"
+
+#: src/Admin/LogsPage.php:249
+msgid "View all"
+msgstr "Ver todo"
+
+#: src/Admin/LogsPage.php:129
+msgid "No documents match the current filter."
+msgstr "Ningún documento coincide con el filtro actual."
+
+#: src/Admin/LogsPage.php:128
+msgid "No records"
+msgstr "Sin registros"
+
+#. translators: 1: current count, 2: total count
+#: src/Admin/LogsPage.php:104
+msgid "Showing %1$d of %2$d records"
+msgstr "Mostrando %1$d de %2$d registros"
+
+#: src/Admin/LogsPage.php:74
+msgid "History of generated electronic tax documents."
+msgstr "Historial de documentos tributarios electrónicos generados."
+
+#: src/Admin/LogsPage.php:52 src/Admin/LogsPage.php:167 src/Admin/OrderMetabox.php:172 src/Admin/OrderMetabox.php:173
+msgid "Retry"
+msgstr "Reintentar"
+
+#: src/Admin/LogsPage.php:51 src/Admin/OrderMetabox.php:50
+msgid "Connection error"
+msgstr "Error de conexión"
+
+#: src/Admin/LogsPage.php:50 src/Admin/OrderMetabox.php:49 src/Admin/Settings.php:478
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+#: src/Admin/LogsPage.php:48 src/Integration/DocumentEngine.php:309
+msgid "DTE regenerated successfully"
+msgstr "DTE regenerado correctamente"
+
+#: src/Admin/LogsPage.php:47 src/Admin/OrderMetabox.php:46
+msgid "Processing…"
+msgstr "Procesando…"
+
+#: src/Admin/LogsPage.php:46
+msgid "Retry DTE generation for this order?"
+msgstr "¿Reintentar la generación del DTE para este pedido?"
+
+#: src/Admin/BasePage.php:139
+msgid "Configure now →"
+msgstr "Configurar ahora →"
+
+#: src/Admin/BasePage.php:138
+msgid "Tax documents will not be generated until you enter your Bsale API token."
+msgstr "No se generarán documentos tributarios hasta que ingreses el token de API de Bsale."
+
+#: src/Admin/BasePage.php:137
+msgid "API token not configured"
+msgstr "Token de API no configurado"
+
+#: src/Admin/Admin.php:419 src/Admin/Settings.php:513 src/Integration/DocumentEngine.php:295 src/Integration/DocumentEngine.php:320 src/Integration/StockSync.php:185 src/Integration/StockSync.php:213
+msgid "Not authorized"
+msgstr "No autorizado"
+
+#: src/Admin/Admin.php:402
+msgid "PWL DTE has no API token configured. Tax documents will not be generated until you add one."
+msgstr "PWL DTE no tiene token de API configurado. No se generarán documentos tributarios hasta que agregues uno."
+
+#: src/Admin/Admin.php:401
+msgid "Set up API token →"
+msgstr "Configurar token de API →"
+
+#: src/Admin/Admin.php:375
+msgid "DTE pending"
+msgstr "DTE pendiente"
+
+#: src/Admin/Admin.php:374
+msgid "DTE generation failed"
+msgstr "Falló la generación del DTE"
+
+#: src/Admin/Admin.php:373
+msgid "DTE issued"
+msgstr "DTE emitido"
+
+#: src/Admin/Admin.php:368
+msgid "No DTE"
+msgstr "Sin DTE"
+
+#: src/Admin/Admin.php:342
+msgid "Bsale DTE"
+msgstr "Bsale DTE"
+
+#: src/Admin/Admin.php:306
+msgid "Product importer from Bsale"
+msgstr "Importador de productos desde Bsale"
+
+#: src/Admin/Admin.php:305
+msgid "Automatic retry for failed DTEs"
+msgstr "Reintento automático de DTE fallidos"
+
+#: src/Admin/Admin.php:304
+msgid "Multi-office by shipping method"
+msgstr "Oficina emisora del DTE según método de envío"
+
+#: src/Admin/Admin.php:303
+msgid "Automatic credit notes on refunds"
+msgstr "Notas de crédito automáticas en devoluciones"
+
+#: src/Admin/Admin.php:302
+msgid "Real-time Bsale webhooks"
+msgstr "Webhooks de Bsale en tiempo real"
+
+#: src/Admin/Admin.php:301
+msgid "Automatic stock sync (cron)"
+msgstr "Sincronización automática de stock (cron)"
+
+#: src/Admin/Admin.php:299
+msgid "Power your invoicing with PWL DTE Pro"
+msgstr "Potencia tu facturación con PWL DTE Pro"
+
+#: src/Admin/Admin.php:253 src/Admin/LogsPage.php:121
+msgid "Actions"
+msgstr "Acciones"
+
+#: src/Admin/Admin.php:252 src/Admin/LogsPage.php:120
+msgid "Date"
+msgstr "Fecha"
+
+#: src/Admin/Admin.php:251 src/Admin/LogsPage.php:119 src/Admin/OrderMetabox.php:126
+msgid "Attempts"
+msgstr "Intentos"
+
+#: src/Admin/Admin.php:250 src/Admin/LogsPage.php:117 src/Admin/OrderMetabox.php:118
+msgid "Status"
+msgstr "Estado"
+
+#: src/Admin/Admin.php:248 src/Admin/LogsPage.php:115 src/Admin/OrderMetabox.php:121
+msgid "Type"
+msgstr "Tipo"
+
+#: src/Admin/Admin.php:239
+msgid "DTEs are generated automatically when a WooCommerce order is completed."
+msgstr "Los DTE se generan automáticamente cuando se completa un pedido de WooCommerce."
+
+#: src/Admin/Admin.php:238
+msgid "No documents yet"
+msgstr "Aún no hay documentos"
+
+#: src/Admin/Admin.php:229
+msgid "View all logs →"
+msgstr "Ver todos los registros →"
+
+#: src/Admin/Admin.php:227
+msgid "Last 20 documents"
+msgstr "Últimos 20 documentos"
+
+#: src/Admin/Admin.php:220
+msgid "With errors"
+msgstr "Con errores"
+
+#: src/Admin/Admin.php:218
+msgid "Total issued"
+msgstr "Total emitidos"
+
+#: src/Admin/Admin.php:211
+msgid "Electronic tax documents"
+msgstr "Documentos tributarios electrónicos"
+
+#: src/Admin/Admin.php:197 src/Admin/BasePage.php:108 src/Admin/Settings.php:461
+msgid "Not authorized."
+msgstr "No autorizado."
+
+#: src/Admin/Admin.php:156 src/Admin/Settings.php:164
+msgid "Sync"
+msgstr "Sincronizar"
+
+#: src/Admin/Admin.php:144
+msgid "Unknown"
+msgstr "Desconocido"
+
+#: src/Admin/Admin.php:142 src/Admin/Admin.php:376 src/Admin/LogsPage.php:222
+msgid "Retrying"
+msgstr "Reintentando"
+
+#: src/Admin/Admin.php:141 src/Admin/Admin.php:221 src/Admin/LogsPage.php:221
+msgid "Pending"
+msgstr "Pendiente"
+
+#: src/Admin/Admin.php:139 src/Admin/Admin.php:219 src/Admin/LogsPage.php:219
+msgid "Successful"
+msgstr "Exitoso"
+
+#. Description of the plugin
+#: pwl-dte-for-bsale.php
+msgid "Connect WooCommerce with Bsale for Chilean electronic invoicing (DTE)."
+msgstr "Conecta WooCommerce con Bsale para la facturación electrónica tributaria chilena (DTE)."
+
+#: src/Integration/DTEShortcode.php:73
+msgid "View document online"
+msgstr "Ver documento en línea"
+
+#: src/Integration/DTEShortcode.php:62
+msgid "Folio:"
+msgstr "Folio:"
+
+#: src/Integration/DocumentEngine.php:202
+msgid "PDF:"
+msgstr "PDF:"
+
+#: src/Integration/CheckoutFields.php:214 src/Integration/CheckoutFields.php:237
+msgid "RUT:"
+msgstr "RUT:"
+
+#: src/Integration/CheckoutFields.php:38 src/Integration/CheckoutFields.php:79
+msgid "RUT"
+msgstr "RUT"
+
+#. translators: %d: HTTP error status code
+#: src/Api/BsaleClient.php:247
+msgid "Error HTTP %d"
+msgstr "Error HTTP %d"
+
+#: src/Admin/Settings.php:346
+msgid "Debug"
+msgstr "Depuración"
+
+#: src/Admin/Settings.php:345
+msgid "Information"
+msgstr "Información"
+
+#: src/Admin/Settings.php:294
+msgid "Webhook URL"
+msgstr "URL del webhook"
+
+#: src/Admin/Settings.php:289
+msgid "Webhook Secret"
+msgstr "Secreto del webhook"
+
+#: src/Admin/Settings.php:263
+msgid "Interval"
+msgstr "Intervalo"
+
+#: src/Admin/Settings.php:205
+msgid "Office ID"
+msgstr "ID de oficina"
+
+#: src/Admin/Settings.php:199
+msgid "API Token"
+msgstr "Token de API"
+
+#: src/Admin/Settings.php:163
+msgid "Documents"
+msgstr "Documentos"
+
+#: src/Admin/OrderMetabox.php:104 src/Admin/OrderMetabox.php:105
+msgid "Generate DTE"
+msgstr "Generar DTE"
+
+#: src/Admin/LogsPage.php:220
+msgid "Errors"
+msgstr "Errores"
+
+#: src/Admin/Admin.php:247 src/Admin/LogsPage.php:114
+msgid "Order"
+msgstr "Pedido"
+
+#: src/Admin/Admin.php:157 src/Admin/LogsPage.php:62 src/Admin/LogsPage.php:73
+msgid "DTE logs"
+msgstr "Registros de DTE"
+
+#: src/Admin/LogsPage.php:61
+msgid "Bsale DTE logs"
+msgstr "Registros de Bsale DTE"
+
+#: src/Admin/LogsPage.php:49 src/Admin/OrderMetabox.php:48 src/Admin/Settings.php:58
+msgid "Error: "
+msgstr "Error: "
+
+#: src/Admin/Admin.php:425
+msgid "Token not configured"
+msgstr "Token no configurado"
+
+#: src/Admin/Admin.php:315 src/Admin/Settings.php:312
+msgid "View PWL DTE Pro →"
+msgstr "Ver PWL DTE Pro →"
+
+#: src/Admin/Admin.php:298
+msgid "Pro"
+msgstr "Pro"
+
+#: src/Admin/Admin.php:273 src/Admin/LogsPage.php:160
+msgid "PDF"
+msgstr "PDF"
+
+#: src/Admin/Admin.php:249 src/Admin/LogsPage.php:116 src/Admin/OrderMetabox.php:122
+msgid "Folio"
+msgstr "Folio"
+
+#: src/Admin/Admin.php:186
+msgid "Upgrade to Pro"
+msgstr "Pasar a Pro"
+
+#: src/Admin/Admin.php:161 src/Admin/Settings.php:287
+msgid "Webhooks"
+msgstr "Webhooks"
+
+#: src/Admin/Admin.php:140 src/Admin/LogsPage.php:118
+msgid "Error"
+msgstr "Error"
+
+#: src/Admin/Admin.php:68 src/Admin/Admin.php:69 src/Admin/Admin.php:155 src/Admin/Settings.php:111
+msgid "Settings"
+msgstr "Configuración"
+
+#: src/Admin/Admin.php:59 src/Admin/Admin.php:60 src/Admin/Admin.php:154
+msgid "Dashboard"
+msgstr "Panel"
+
+#: src/Admin/Admin.php:48 src/Admin/Admin.php:49
+msgid "PWL DTE"
+msgstr "PWL DTE"
+
+#: pwl-dte-for-bsale.php:66
+msgid "requires WooCommerce to be installed and active."
+msgstr "requiere que WooCommerce esté instalado y activo."
+
+#: pwl-dte-for-bsale.php:42
+msgid "PWL DTE for Bsale Pro cannot run while PWL DTE for Bsale Lite is active. Please deactivate Lite manually and keep only one edition active."
+msgstr "PWL DTE para Bsale Pro no puede ejecutarse mientras PWL DTE para Bsale Lite está activo. Desactiva Lite manualmente y mantén solo una edición activa."
+
+#. Author URI of the plugin
+#: pwl-dte-for-bsale.php
+msgid "https://github.com/PluginLATAM"
+msgstr "https://github.com/PluginLATAM"
+
+#. Author of the plugin
+#: pwl-dte-for-bsale.php
+msgid "PluginLATAM"
+msgstr "PluginLATAM"
+
+#. Plugin URI of the plugin
+#: pwl-dte-for-bsale.php
+msgid "https://github.com/PluginLATAM/PWL-dte-for-bsale-lite"
+msgstr "https://github.com/PluginLATAM/PWL-dte-for-bsale-lite"
+
+#. Plugin Name of the plugin
+#: pwl-dte-for-bsale.php src/Admin/Admin.php:210
+msgid "PWL DTE for Bsale"
+msgstr "PWL DTE para Bsale"

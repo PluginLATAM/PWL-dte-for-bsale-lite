@@ -42,12 +42,12 @@ class OrderMetabox
 		);
 		wp_localize_script('pwl-dte-for-bsale-metabox', 'pwlDteMetabox', [
 			'labels' => [
-				'confirm'         => __('¿Confirmar acción?', 'pwl-dte-for-bsale'),
-				'processing'      => __('Procesando...', 'pwl-dte-for-bsale'),
-				'success'         => __('Operación exitosa', 'pwl-dte-for-bsale'),
+				'confirm'         => __('Confirm this action?', 'pwl-dte-for-bsale'),
+				'processing'      => __('Processing…', 'pwl-dte-for-bsale'),
+				'success'         => __('Operation successful', 'pwl-dte-for-bsale'),
 				'errorPrefix'     => __('Error: ', 'pwl-dte-for-bsale'),
-				'unknownError'    => __('Error desconocido', 'pwl-dte-for-bsale'),
-				'connectionError' => __('Error de conexión', 'pwl-dte-for-bsale'),
+				'unknownError'    => __('Unknown error', 'pwl-dte-for-bsale'),
+				'connectionError' => __('Connection error', 'pwl-dte-for-bsale'),
 			],
 		]);
 	}
@@ -57,7 +57,7 @@ class OrderMetabox
 		foreach (["shop_order", "woocommerce_page_wc-orders"] as $screen) {
 			add_meta_box(
 				"pwl_dte_dte",
-				__("Bsale — Documento Tributario", 'pwl-dte-for-bsale'),
+				__('Bsale — Tax document', 'pwl-dte-for-bsale'),
 				$screen === "shop_order" ? [$this, "render_metabox_post"] : [$this, "render_metabox_hpos"],
 				$screen,
 				"side",
@@ -93,7 +93,7 @@ class OrderMetabox
 	{
 		echo '<div class="wads">';
 		BasePage::echo_component(Components::notice(
-			__("No se ha generado DTE para esta orden.", 'pwl-dte-for-bsale'),
+			__('No DTE has been generated for this order.', 'pwl-dte-for-bsale'),
 			"warning",
 		));
 		echo '<div style="margin-top:10px;">';
@@ -101,8 +101,8 @@ class OrderMetabox
 			'<button type="button" class="wads-btn wads-btn--primary pwl-dte-for-bsale-dte-action" data-action="pwl_dte_regenerate_dte" data-order-id="%d" data-nonce="%s" data-label-done="%s">%s</button>',
 			absint($order_id),
 			esc_attr($nonce),
-			esc_attr__("Generar DTE", 'pwl-dte-for-bsale'),
-			esc_html__("Generar DTE", 'pwl-dte-for-bsale'),
+			esc_attr__('Generate DTE', 'pwl-dte-for-bsale'),
+			esc_html__('Generate DTE', 'pwl-dte-for-bsale'),
 		);
 		echo '</div></div>';
 
@@ -115,19 +115,19 @@ class OrderMetabox
 		$status_badge = Components::badge($cfg["label"], $cfg["variant"]);
 
 		// Build KV pairs
-		$kv = [__("Estado", 'pwl-dte-for-bsale') => $status_badge];
+		$kv = [__('Status', 'pwl-dte-for-bsale') => $status_badge];
 
 		if ($status === "success") {
-			$kv[__("Tipo", 'pwl-dte-for-bsale')]  = esc_html(ucfirst($doc["document_type"]));
-			$kv[__("Folio", 'pwl-dte-for-bsale')] = esc_html($doc["folio"] ?: "—");
+			$kv[__('Type', 'pwl-dte-for-bsale')]  = esc_html(ucfirst($doc["document_type"]));
+			$kv[__('Folio', 'pwl-dte-for-bsale')] = esc_html($doc["folio"] ?: "—");
 		}
 
 		if ($status === "error") {
-			$kv[__("Intentos", 'pwl-dte-for-bsale')] = absint($doc["attempts"]);
+			$kv[__('Attempts', 'pwl-dte-for-bsale')] = absint($doc["attempts"]);
 		}
 
 		/* translators: %s: datetime */
-		$kv[__("Actualizado", 'pwl-dte-for-bsale')] = '<span style="font-size:11px;color:#999;">'
+		$kv[__('Updated', 'pwl-dte-for-bsale')] = '<span style="font-size:11px;color:#999;">'
 			. esc_html(wp_date("d/m/Y H:i", strtotime($doc["updated_at"])))
 			. '</span>';
 
@@ -137,17 +137,17 @@ class OrderMetabox
 		if ($status === "error" && !empty($doc["error_message"])) {
 			BasePage::echo_component(Components::notice(esc_html($doc["error_message"]), "danger"));
 		} elseif ($status === "pending") {
-			BasePage::echo_component(Components::notice(__("El DTE está siendo procesado...", 'pwl-dte-for-bsale'), "warning"));
+			BasePage::echo_component(Components::notice(__('The DTE is being processed…', 'pwl-dte-for-bsale'), "warning"));
 		}
 
 		echo '<div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;">';
 
 		if ($status === "success") {
 			if (!empty($doc["pdf_url"])) {
-				BasePage::echo_component(Components::button(__("Ver PDF", 'pwl-dte-for-bsale'), "ghost", ["size" => "sm", "href" => $doc["pdf_url"], "attrs" => ["target" => "_blank"]]));
+				BasePage::echo_component(Components::button(__('View PDF', 'pwl-dte-for-bsale'), "ghost", ["size" => "sm", "href" => $doc["pdf_url"], "attrs" => ["target" => "_blank"]]));
 			}
 			if (!empty($doc["public_url"])) {
-				BasePage::echo_component(Components::button(__("Ver Online", 'pwl-dte-for-bsale'), "ghost", ["size" => "sm", "href" => $doc["public_url"], "attrs" => ["target" => "_blank"]]));
+				BasePage::echo_component(Components::button(__('View online', 'pwl-dte-for-bsale'), "ghost", ["size" => "sm", "href" => $doc["public_url"], "attrs" => ["target" => "_blank"]]));
 			}
 			printf(
 				'<button type="button" class="wads-btn wads-btn--secondary wads-btn--sm pwl-dte-for-bsale-dte-action"
@@ -157,8 +157,8 @@ class OrderMetabox
 					data-label-done="%s">%s</button>',
 				absint($order_id),
 				esc_attr($nonce),
-				esc_attr__("Reenviar Email", 'pwl-dte-for-bsale'),
-				esc_html__("Reenviar Email", 'pwl-dte-for-bsale'),
+				esc_attr__('Resend email', 'pwl-dte-for-bsale'),
+				esc_html__('Resend email', 'pwl-dte-for-bsale'),
 			);
 		} elseif ($status === "error") {
 			printf(
@@ -169,8 +169,8 @@ class OrderMetabox
 					data-label-done="%s">%s</button>',
 				absint($order_id),
 				esc_attr($nonce),
-				esc_attr__("Reintentar", 'pwl-dte-for-bsale'),
-				esc_html__("Reintentar", 'pwl-dte-for-bsale'),
+				esc_attr__('Retry', 'pwl-dte-for-bsale'),
+				esc_html__('Retry', 'pwl-dte-for-bsale'),
 			);
 		}
 

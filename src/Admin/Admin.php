@@ -36,7 +36,12 @@ class Admin
 	{
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$page = isset($_GET["page"]) ? sanitize_key(wp_unslash($_GET["page"])) : "";
-		if (!str_starts_with($page, "pwl-dte-for-bsale")) return;
+		$is_license = PWL_DTE_EDITION === "pro"
+			&& class_exists(\PwlDte\Integration\Pro\LicenseClient::class)
+			&& $page === \PwlDte\Integration\Pro\LicenseClient::license_admin_page_slug();
+		if (!str_starts_with($page, "pwl-dte-for-bsale") && !$is_license) {
+			return;
+		}
 
 		// Remove all notices — our token alert is rendered inline inside the wads wrapper instead
 		remove_all_actions("admin_notices");
@@ -75,7 +80,17 @@ class Admin
 
 	public function enqueue_assets(string $hook): void
 	{
-		$is_plugin_page = str_contains($hook, 'pwl-dte-for-bsale');
+		$license_slug = PWL_DTE_EDITION === "pro" && class_exists(\PwlDte\Integration\Pro\LicenseClient::class)
+			? \PwlDte\Integration\Pro\LicenseClient::license_admin_page_slug()
+			: "";
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only screen detection for asset loading
+		$screen_page = isset($_GET["page"]) ? sanitize_key(wp_unslash($_GET["page"])) : "";
+		$is_license_page = $license_slug !== ""
+			&& (
+				str_contains($hook, $license_slug)
+				|| $screen_page === $license_slug
+			);
+		$is_plugin_page = str_contains($hook, 'pwl-dte-for-bsale') || $is_license_page;
 		$is_order_page = in_array($hook, ['post.php', 'woocommerce_page_wc-orders'], true);
 
 		if (!$is_plugin_page && !$is_order_page) {
@@ -136,12 +151,12 @@ class Admin
 	{
 		static $map = null;
 		$map ??= [
-			"success"  => ["label" => __("Exitoso", 'pwl-dte-for-bsale'),      "variant" => "solid-success"],
-			"error"    => ["label" => __("Error", 'pwl-dte-for-bsale'),         "variant" => "solid-danger"],
-			"pending"  => ["label" => __("Pendiente", 'pwl-dte-for-bsale'),     "variant" => "warning"],
-			"retrying" => ["label" => __("Reintentando", 'pwl-dte-for-bsale'),  "variant" => "info"],
+			"success"  => ["label" => __('Successful', 'pwl-dte-for-bsale'),      "variant" => "solid-success"],
+			"error"    => ["label" => __('Error', 'pwl-dte-for-bsale'),         "variant" => "solid-danger"],
+			"pending"  => ["label" => __('Pending', 'pwl-dte-for-bsale'),     "variant" => "warning"],
+			"retrying" => ["label" => __('Retrying', 'pwl-dte-for-bsale'),  "variant" => "info"],
 		];
-		return $map[$status] ?? ["label" => __("Desconocido", 'pwl-dte-for-bsale'), "variant" => "default"];
+		return $map[$status] ?? ["label" => __('Unknown', 'pwl-dte-for-bsale'), "variant" => "default"];
 	}
 
 	// -------------------------------------------------------------------------
@@ -151,14 +166,25 @@ class Admin
 	public static function render_sidebar(string $active_page = "dashboard"): void
 	{
 		$pages = [
-			"dashboard" => ["label" => __("Dashboard", 'pwl-dte-for-bsale'),       "url" => admin_url("admin.php?page=pwl-dte-for-bsale")],
-			"settings"  => ["label" => __("Configuración", 'pwl-dte-for-bsale'),   "url" => admin_url("admin.php?page=pwl-dte-for-bsale-settings")],
-			"sync"      => ["label" => __("Sincronización", 'pwl-dte-for-bsale'),  "url" => admin_url("admin.php?page=pwl-dte-for-bsale-sync")],
-			"logs"      => ["label" => __("Logs DTE", 'pwl-dte-for-bsale'),        "url" => admin_url("admin.php?page=pwl-dte-for-bsale-logs")],
+			"dashboard" => ["label" => __('Dashboard', 'pwl-dte-for-bsale'),       "url" => admin_url("admin.php?page=pwl-dte-for-bsale")],
+			"settings"  => ["label" => __('Settings', 'pwl-dte-for-bsale'),   "url" => admin_url("admin.php?page=pwl-dte-for-bsale-settings")],
+			"sync"      => ["label" => __('Sync', 'pwl-dte-for-bsale'),  "url" => admin_url("admin.php?page=pwl-dte-for-bsale-settings&tab=sync")],
+			"logs"      => ["label" => __('DTE logs', 'pwl-dte-for-bsale'),        "url" => admin_url("admin.php?page=pwl-dte-for-bsale-logs")],
 		];
 
 		if (PWL_DTE_EDITION === "pro") {
-			$pages["webhooks"] = ["label" => __("Webhooks", 'pwl-dte-for-bsale'), "url" => admin_url("admin.php?page=pwl-dte-for-bsale-webhooks")];
+			if (class_exists(\PwlDte\Integration\Pro\ProFeatures::class) && \PwlDte\Integration\Pro\ProFeatures::is_pro_license_active()) {
+				$pages["webhooks"] = [
+					"label" => __("Webhooks", 'pwl-dte-for-bsale'),
+					"url"   => admin_url("admin.php?page=pwl-dte-for-bsale-webhook-debug"),
+				];
+			}
+			if (class_exists(\PwlDte\Integration\Pro\LicenseClient::class)) {
+				$pages["license"] = [
+					"label" => __('License', 'pwl-dte-for-bsale'),
+					"url"   => admin_url('admin.php?page=' . \PwlDte\Integration\Pro\LicenseClient::license_admin_page_slug()),
+				];
+			}
 		}
 		?>
 		<aside class="wads-sidebar">
@@ -194,7 +220,7 @@ class Admin
 	public function render_dashboard(): void
 	{
 		if (!current_user_can("manage_woocommerce")) {
-			wp_die(esc_html__("No autorizado.", 'pwl-dte-for-bsale'));
+			wp_die(esc_html__('Not authorized.', 'pwl-dte-for-bsale'));
 		}
 
 		$db        = new \PwlDte\Core\Database();
@@ -208,25 +234,26 @@ class Admin
 		<div class="wads-main">
 			<?php BasePage::echo_component(\UserDOMP\WpAdminDS\Components::page_header(
 				__("PWL DTE for Bsale", 'pwl-dte-for-bsale'),
-				["desc" => __("Documentos Tributarios Electrónicos", 'pwl-dte-for-bsale'), "badge" => PWL_DTE_EDITION === "pro" ? "Pro" : ""],
+				["desc" => __('Electronic tax documents', 'pwl-dte-for-bsale'), "badge" => PWL_DTE_EDITION === "pro" ? "Pro" : ""],
 			)); ?>
 
 			<?php BasePage::render_token_alert(); ?>
+			<?php BasePage::maybe_render_pro_license_lock_notice(); ?>
 
 			<div class="wads-stats-row" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:24px;">
 				<?php
-				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__("Total generados", 'pwl-dte-for-bsale'), (string) $total));
-				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__("Exitosos", 'pwl-dte-for-bsale'), (string) $success, ["variant" => "success"]));
-				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__("Con error", 'pwl-dte-for-bsale'), (string) $errors, ["variant" => "danger"]));
-				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__("Pendientes", 'pwl-dte-for-bsale'), (string) $pending, ["variant" => "warning"]));
+				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__('Total issued', 'pwl-dte-for-bsale'), (string) $total));
+				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__('Successful', 'pwl-dte-for-bsale'), (string) $success, ["variant" => "success"]));
+				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__('With errors', 'pwl-dte-for-bsale'), (string) $errors, ["variant" => "danger"]));
+				BasePage::echo_component(\UserDOMP\WpAdminDS\Components::stat(__('Pending', 'pwl-dte-for-bsale'), (string) $pending, ["variant" => "warning"]));
 				?>
 			</div>
 
 			<div class="wads-card">
 				<div class="wads-card__header" style="display:flex;align-items:center;justify-content:space-between;">
-					<h3 style="margin:0;font-size:15px;"><?php esc_html_e("Últimos 20 documentos", 'pwl-dte-for-bsale'); ?></h3>
+					<h3 style="margin:0;font-size:15px;"><?php esc_html_e('Last 20 documents', 'pwl-dte-for-bsale'); ?></h3>
 					<?php BasePage::echo_component(\UserDOMP\WpAdminDS\Components::button(
-						__("Ver todos los logs →", 'pwl-dte-for-bsale'),
+						__('View all logs →', 'pwl-dte-for-bsale'),
 						"ghost",
 						["href" => admin_url("admin.php?page=pwl-dte-for-bsale-logs"), "size" => "sm"],
 					)); ?>
@@ -235,8 +262,8 @@ class Admin
 				<?php if (empty($documents)): ?>
 					<div class="wads-card__body">
 						<?php BasePage::echo_component(\UserDOMP\WpAdminDS\Components::empty_state(
-							__("Sin documentos aún", 'pwl-dte-for-bsale'),
-							["desc" => __("Los DTEs se generarán automáticamente al completar un pedido en WooCommerce.", 'pwl-dte-for-bsale')],
+							__('No documents yet', 'pwl-dte-for-bsale'),
+							["desc" => __('DTEs are generated automatically when a WooCommerce order is completed.', 'pwl-dte-for-bsale')],
 						)); ?>
 					</div>
 				<?php else: ?>
@@ -244,13 +271,13 @@ class Admin
 						<table class="wads-table">
 							<thead>
 								<tr>
-									<th><?php esc_html_e("Pedido", 'pwl-dte-for-bsale'); ?></th>
-									<th><?php esc_html_e("Tipo", 'pwl-dte-for-bsale'); ?></th>
-									<th><?php esc_html_e("Folio", 'pwl-dte-for-bsale'); ?></th>
-									<th><?php esc_html_e("Estado", 'pwl-dte-for-bsale'); ?></th>
-									<th><?php esc_html_e("Intentos", 'pwl-dte-for-bsale'); ?></th>
-									<th><?php esc_html_e("Fecha", 'pwl-dte-for-bsale'); ?></th>
-									<th><?php esc_html_e("Acciones", 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Order', 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Type', 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Folio', 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Status', 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Attempts', 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Date', 'pwl-dte-for-bsale'); ?></th>
+									<th><?php esc_html_e('Actions', 'pwl-dte-for-bsale'); ?></th>
 								</tr>
 							</thead>
 							<tbody>
@@ -296,14 +323,14 @@ class Admin
 	{
 		$url      = esc_url(PWL_DTE_PRO_URL);
 		$badge    = esc_html__("Pro", "pwl-dte-for-bsale");
-		$title    = esc_html__("Potencia tu facturación con PWL DTE Pro", "pwl-dte-for-bsale");
+		$title    = esc_html__('Power your invoicing with PWL DTE Pro', 'pwl-dte-for-bsale');
 		$features = [
-			__("Sincronización de stock automática (cron)", "pwl-dte-for-bsale"),
-			__("Webhooks en tiempo real de Bsale", "pwl-dte-for-bsale"),
-			__("Notas de crédito automáticas en devoluciones", "pwl-dte-for-bsale"),
-			__("Multi-sucursal según método de envío", "pwl-dte-for-bsale"),
-			__("Retry automático de DTEs fallidos", "pwl-dte-for-bsale"),
-			__("Importador de productos desde Bsale", "pwl-dte-for-bsale"),
+			__('Automatic stock sync (cron)', 'pwl-dte-for-bsale'),
+			__('Real-time Bsale webhooks', 'pwl-dte-for-bsale'),
+			__('Automatic credit notes on refunds', 'pwl-dte-for-bsale'),
+			__('Multi-office by shipping method', 'pwl-dte-for-bsale'),
+			__('Automatic retry for failed DTEs', 'pwl-dte-for-bsale'),
+			__('Product importer from Bsale', 'pwl-dte-for-bsale'),
 		];
 		$items    = implode("", array_map(
 			fn($f) => '<li style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--wads-text,#2c2825);">'
@@ -312,7 +339,7 @@ class Admin
 				. "</li>",
 			$features,
 		));
-		$cta      = esc_html__("Ver PWL DTE Pro →", "pwl-dte-for-bsale");
+		$cta      = esc_html__('View PWL DTE Pro →', 'pwl-dte-for-bsale');
 		?>
 		<div class="wads-card" style="margin-top:24px;border:2px solid var(--wads-accent,#7c5c3b);">
 			<div class="wads-card__header" style="display:flex;align-items:center;gap:10px;">
@@ -339,7 +366,7 @@ class Admin
 		foreach ($columns as $key => $value) {
 			$new_columns[$key] = $value;
 			if ($key === "order_status") {
-				$new_columns["pwl_dte"] = __("DTE Bsale", 'pwl-dte-for-bsale');
+				$new_columns["pwl_dte"] = __('Bsale DTE', 'pwl-dte-for-bsale');
 			}
 		}
 		return $new_columns;
@@ -365,15 +392,15 @@ class Admin
 		$doc = $db->get_document_by_order_id($order_id);
 
 		if (!$doc) {
-			echo '<span style="color: #999;" title="' . esc_attr__("Sin DTE", 'pwl-dte-for-bsale') . '">—</span>';
+			echo '<span style="color: #999;" title="' . esc_attr__('No DTE', 'pwl-dte-for-bsale') . '">—</span>';
 			return;
 		}
 
 		$icons = [
-			"success"  => '<span style="color: #2e7d32; font-size: 16px;" title="' . esc_attr__("DTE generado", 'pwl-dte-for-bsale') . '">✓</span>',
-			"error"    => '<span style="color: #c62d2d; font-size: 16px;" title="' . esc_attr__("Error al generar DTE", 'pwl-dte-for-bsale') . '">✗</span>',
-			"pending"  => '<span style="color: #b45309; font-size: 14px;" title="' . esc_attr__("DTE pendiente", 'pwl-dte-for-bsale') . '">⏳</span>',
-			"retrying" => '<span style="color: #1565c0; font-size: 14px;" title="' . esc_attr__("Reintentando", 'pwl-dte-for-bsale') . '">↻</span>',
+			"success"  => '<span style="color: #2e7d32; font-size: 16px;" title="' . esc_attr__('DTE issued', 'pwl-dte-for-bsale') . '">✓</span>',
+			"error"    => '<span style="color: #c62d2d; font-size: 16px;" title="' . esc_attr__('DTE generation failed', 'pwl-dte-for-bsale') . '">✗</span>',
+			"pending"  => '<span style="color: #b45309; font-size: 14px;" title="' . esc_attr__('DTE pending', 'pwl-dte-for-bsale') . '">⏳</span>',
+			"retrying" => '<span style="color: #1565c0; font-size: 14px;" title="' . esc_attr__('Retrying', 'pwl-dte-for-bsale') . '">↻</span>',
 		];
 
 		echo wp_kses_post($icons[$doc["status"]] ?? "");
@@ -398,8 +425,8 @@ class Admin
 		if ($page === "pwl-dte-for-bsale-settings") return;
 
 		$url   = esc_url(admin_url("admin.php?page=pwl-dte-for-bsale-settings"));
-		$label = esc_html__("Configurar token →", "pwl-dte-for-bsale");
-		$msg   = esc_html__("PWL DTE no tiene un token de API configurado. Los documentos tributarios no se generarán hasta que lo ingreses.", "pwl-dte-for-bsale");
+		$label = esc_html__('Set up API token →', 'pwl-dte-for-bsale');
+		$msg   = esc_html__('PWL DTE has no API token configured. Tax documents will not be generated until you add one.', 'pwl-dte-for-bsale');
 		?>
 		<div class="notice notice-error">
 			<p><strong>PWL DTE:</strong> <?php echo esc_html($msg); ?> <a href="<?php echo esc_url($url); ?>"><?php echo esc_html($label); ?></a></p>
@@ -416,13 +443,13 @@ class Admin
 		check_ajax_referer("pwl_dte_api_fetch", "nonce");
 
 		if (!current_user_can("manage_woocommerce")) {
-			wp_send_json_error(["message" => __("No autorizado", 'pwl-dte-for-bsale')], 403);
+			wp_send_json_error(["message" => __('Not authorized', 'pwl-dte-for-bsale')], 403);
 		}
 
 		$token = get_option("pwl_dte_api_token", "");
 
 		if (empty($token)) {
-			wp_send_json_error(["message" => __("Token no configurado", 'pwl-dte-for-bsale')], 400);
+			wp_send_json_error(["message" => __('Token not configured', 'pwl-dte-for-bsale')], 400);
 		}
 
 		$client = new \PwlDte\Api\BsaleClient($token);

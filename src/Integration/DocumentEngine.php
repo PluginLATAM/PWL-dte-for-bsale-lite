@@ -122,7 +122,7 @@ class DocumentEngine
 			$payload["details"][] = [
 				"netUnitValue" => round($shipping_total / 1.19, 2),
 				"quantity"     => 1,
-				"comment"      => $order->get_shipping_method() ?: __("Despacho", 'pwl-dte-for-bsale'),
+				"comment"      => $order->get_shipping_method() ?: __('Shipping', 'pwl-dte-for-bsale'),
 				"taxes"        => [["code" => 14, "percentage" => 19]],
 			];
 		}
@@ -195,11 +195,11 @@ class DocumentEngine
 
 		$note = sprintf(
 			/* translators: %s: document folio number */
-			__("DTE generado exitosamente en Bsale. Folio: %s", 'pwl-dte-for-bsale'),
+			__('DTE generated successfully in Bsale. Folio: %s', 'pwl-dte-for-bsale'),
 			$response["number"] ?? "—",
 		);
 		if (!empty($response["urlPdf"])) {
-			$note .= "\n" . __("PDF:", 'pwl-dte-for-bsale') . " " . $response["urlPdf"];
+			$note .= "\n" . __('PDF:', 'pwl-dte-for-bsale') . " " . $response["urlPdf"];
 		}
 		$order->add_order_note($note);
 
@@ -214,8 +214,8 @@ class DocumentEngine
 		$order = wc_get_order($order_id);
 		if ($order) {
 			$order->add_order_note(sprintf(
-				/* translators: %s: error message */
-				__("Error al generar DTE en Bsale: %s", 'pwl-dte-for-bsale'),
+				/* translators: %s: Bsale API or validation error message */
+				__('Error generating DTE in Bsale: %s', 'pwl-dte-for-bsale'),
 				$error,
 			));
 		}
@@ -248,8 +248,8 @@ class DocumentEngine
 		$order = wc_get_order($order_id);
 		if ($order) {
 			$order->add_order_note(sprintf(
-				/* translators: %s: error message from Bsale API */
-				__("Error al generar DTE en Bsale: %s", 'pwl-dte-for-bsale'),
+				/* translators: %s: Bsale API or validation error message */
+				__('Error generating DTE in Bsale: %s', 'pwl-dte-for-bsale'),
 				$error_msg,
 			));
 		}
@@ -261,12 +261,23 @@ class DocumentEngine
 			$order->get_billing_email(),
 			sprintf(
 				/* translators: %s: order number */
-				__("Documento Tributario - Orden #%s", 'pwl-dte-for-bsale'),
+				__('Tax document — Order #%s', 'pwl-dte-for-bsale'),
 				$order->get_order_number(),
 			),
 			sprintf(
 				/* translators: 1: first name, 2: document number, 3: public URL, 4: PDF URL */
-				__( "Hola %1\$s,\n\nTu documento tributario ha sido generado exitosamente.\n\nNúmero de documento: %2\$s\nVer documento: %3\$s\nDescargar PDF: %4\$s\n\nGracias por tu compra.", 'pwl-dte-for-bsale' ),
+				__(
+					'Hello %1$s,
+
+Your tax document has been generated successfully.
+
+Document number: %2$s
+View document: %3$s
+Download PDF: %4$s
+
+Thank you for your purchase.',
+					'pwl-dte-for-bsale'
+				),
 				$order->get_billing_first_name(),
 				$document["number"] ?? "—",
 				$document["urlPublicView"] ?? "",
@@ -281,23 +292,23 @@ class DocumentEngine
 		check_ajax_referer("pwl_dte_dte_actions", "nonce");
 
 		if (!current_user_can("manage_woocommerce")) {
-			wp_send_json_error(["message" => __("No autorizado", 'pwl-dte-for-bsale')], 403);
+			wp_send_json_error(["message" => __('Not authorized', 'pwl-dte-for-bsale')], 403);
 		}
 
 		$order_id = absint($_POST["order_id"] ?? 0);
 		if (!$order_id) {
-			wp_send_json_error(["message" => __("ID de orden inválido", 'pwl-dte-for-bsale')], 400);
+			wp_send_json_error(["message" => __('Invalid order ID', 'pwl-dte-for-bsale')], 400);
 		}
 
 		$existing = $this->db->get_document_by_order_id($order_id);
 		if ($existing && $existing["status"] === "success") {
-			wp_send_json_error(["message" => __("Ya existe un DTE exitoso para esta orden", 'pwl-dte-for-bsale')], 409);
+			wp_send_json_error(["message" => __('A successful DTE already exists for this order', 'pwl-dte-for-bsale')], 409);
 		}
 
 		if ($this->generate_dte_for_order($order_id)) {
-			wp_send_json_success(["message" => __("DTE regenerado exitosamente", 'pwl-dte-for-bsale')]);
+			wp_send_json_success(["message" => __('DTE regenerated successfully', 'pwl-dte-for-bsale')]);
 		} else {
-			wp_send_json_error(["message" => __("Error al regenerar DTE. Revisa los logs.", 'pwl-dte-for-bsale')]);
+			wp_send_json_error(["message" => __('Could not regenerate DTE. Check the logs.', 'pwl-dte-for-bsale')]);
 		}
 	}
 
@@ -306,19 +317,19 @@ class DocumentEngine
 		check_ajax_referer("pwl_dte_dte_actions", "nonce");
 
 		if (!current_user_can("manage_woocommerce")) {
-			wp_send_json_error(["message" => __("No autorizado", 'pwl-dte-for-bsale')], 403);
+			wp_send_json_error(["message" => __('Not authorized', 'pwl-dte-for-bsale')], 403);
 		}
 
 		$order_id = absint($_POST["order_id"] ?? 0);
 		$order    = $order_id ? wc_get_order($order_id) : null;
 
 		if (!$order) {
-			wp_send_json_error(["message" => __("Orden no encontrada", 'pwl-dte-for-bsale')], 404);
+			wp_send_json_error(["message" => __('Order not found', 'pwl-dte-for-bsale')], 404);
 		}
 
 		$doc = $this->db->get_document_by_order_id($order_id);
 		if (!$doc || $doc["status"] !== "success") {
-			wp_send_json_error(["message" => __("No hay DTE exitoso para esta orden", 'pwl-dte-for-bsale')], 400);
+			wp_send_json_error(["message" => __('There is no successful DTE for this order', 'pwl-dte-for-bsale')], 400);
 		}
 
 		$this->send_dte_email($order, [
@@ -327,7 +338,7 @@ class DocumentEngine
 			"urlPdf"        => $doc["pdf_url"],
 		]);
 
-		wp_send_json_success(["message" => __("Email enviado", 'pwl-dte-for-bsale')]);
+		wp_send_json_success(["message" => __('Email sent', 'pwl-dte-for-bsale')]);
 	}
 
 	// Template method hooks — override in Pro subclass

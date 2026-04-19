@@ -182,7 +182,7 @@ class StockSync
 		\check_ajax_referer("pwl_dte_stock_sync", "nonce");
 
 		if (!\current_user_can("manage_woocommerce")) {
-			\wp_send_json_error(["message" => \__("No autorizado", 'pwl-dte-for-bsale')], 403);
+			\wp_send_json_error(["message" => \__('Not authorized', 'pwl-dte-for-bsale')], 403);
 		}
 
 		$counts    = $this->sync_stock_from_bsale();
@@ -191,12 +191,12 @@ class StockSync
 		\wp_send_json_success([
 			"message" => \sprintf(
 				/* translators: 1: updated count, 2: error count, 3: skipped count */
-				\__("Sincronización completada: %1\$d actualizados, %2\$d errores, %3\$d omitidos", 'pwl-dte-for-bsale'),
+				\__('Sync finished: %1$d updated, %2$d errors, %3$d skipped', 'pwl-dte-for-bsale'),
 				$counts["synced"],
 				$counts["errors"],
 				$counts["skipped"],
 			),
-			"last_sync" => $last_sync ? \wp_date("Y-m-d H:i:s", $last_sync) : \__("Nunca", 'pwl-dte-for-bsale'),
+			"last_sync" => $last_sync ? \wp_date("Y-m-d H:i:s", $last_sync) : \__('Never', 'pwl-dte-for-bsale'),
 		]);
 	}
 
@@ -210,7 +210,7 @@ class StockSync
 		\check_ajax_referer("pwl_dte_stock_sync", "nonce");
 
 		if (!\current_user_can("manage_woocommerce")) {
-			\wp_send_json_error(["message" => \__("No autorizado", 'pwl-dte-for-bsale')], 403);
+			\wp_send_json_error(["message" => \__('Not authorized', 'pwl-dte-for-bsale')], 403);
 		}
 
 		$offset = \absint($_POST["offset"] ?? 0);

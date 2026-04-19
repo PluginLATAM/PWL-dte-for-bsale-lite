@@ -105,7 +105,7 @@ abstract class BasePage
 		$c = $this->page_config();
 
 		if (!current_user_can($c["cap"] ?? "manage_woocommerce")) {
-			wp_die(esc_html__("No autorizado.", "pwl-dte-for-bsale"));
+			wp_die(esc_html__('Not authorized.', 'pwl-dte-for-bsale'));
 		}
 
 		$opts = array_filter([
@@ -117,10 +117,76 @@ abstract class BasePage
 		<div class="wads-main">
 			<?php self::echo_component(Components::page_header($c["title"], $opts)); ?>
 			<?php if ($c["token_alert"] ?? true) self::render_token_alert(); ?>
+			<?php self::maybe_render_pro_license_lock_notice(); ?>
 			<?php $this->render_content(); ?>
 		</div><!-- /.wads-main -->
 		</div><!-- /.wads -->
 		<?php
+	}
+
+	// -------------------------------------------------------------------------
+	// Pro license — all plugin admin screens (except the License screen itself)
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Warning when Pro edition runs without an active license (strict gate off).
+	 */
+	public static function maybe_render_pro_license_lock_notice(): void
+	{
+		if (PWL_DTE_EDITION !== "pro") {
+			return;
+		}
+		if (!class_exists(\PwlDte\Integration\Pro\ProFeatures::class)
+			|| !class_exists(\PwlDte\Integration\Pro\LicenseClient::class)) {
+			return;
+		}
+		if (\PwlDte\Integration\Pro\ProFeatures::is_pro_license_active()) {
+			return;
+		}
+		if (!current_user_can("manage_woocommerce") && !current_user_can("manage_options")) {
+			return;
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- screen detection only
+		$page = isset($_GET["page"]) ? sanitize_key(wp_unslash($_GET["page"])) : "";
+		if ($page === \PwlDte\Integration\Pro\LicenseClient::license_admin_page_slug()) {
+			return;
+		}
+
+		$license_url = admin_url(
+			"admin.php?page=" . \PwlDte\Integration\Pro\LicenseClient::license_admin_page_slug(),
+		);
+
+		$intro = esc_html__(
+			'Boleta, factura, and manual stock sync stay available. Activate your Pro license to enable webhooks, multi-office, automatic retries, credit notes, and the product importer.',
+			'pwl-dte-for-bsale',
+		);
+
+		$cta = Components::button(
+			__('Activate license', 'pwl-dte-for-bsale'),
+			'primary',
+			[
+				'href' => $license_url,
+				'size' => 'lg',
+				'attrs' => [
+					'id' => 'pwl-dte-pro-license-cta-banner',
+				],
+			],
+		);
+
+		$html = '<div class="wads-mb-4" style="display:flex;flex-wrap:wrap;align-items:flex-start;gap:16px;margin-bottom:20px;">'
+			. '<div style="flex:1;min-width:240px;">'
+			. Components::callout(
+				__('Pro features are locked', 'pwl-dte-for-bsale'),
+				'warning',
+				$intro,
+			)
+			. '</div>'
+			. '<div style="flex-shrink:0;display:flex;align-items:center;min-height:48px;">'
+			. $cta
+			. '</div>'
+			. '</div>';
+
+		self::echo_component($html);
 	}
 
 	// -------------------------------------------------------------------------
@@ -134,9 +200,9 @@ abstract class BasePage
 
 		$url   = esc_url(admin_url("admin.php?page=pwl-dte-for-bsale-settings"));
 		$icon  = "⚠";
-		$title = __("Token de API no configurado", "pwl-dte-for-bsale");
-		$msg   = __("Los documentos tributarios no se generarán hasta que ingreses tu token de Bsale.", "pwl-dte-for-bsale");
-		$cta   = __("Configurar ahora →", "pwl-dte-for-bsale");
+		$title = __('API token not configured', 'pwl-dte-for-bsale');
+		$msg   = __('Tax documents will not be generated until you enter your Bsale API token.', 'pwl-dte-for-bsale');
+		$cta   = __('Configure now →', 'pwl-dte-for-bsale');
 		?>
 		<div style="display:flex;align-items:flex-start;gap:12px;padding:14px 16px;margin-bottom:20px;background:#fff8f8;border:1px solid #f5c6c6;border-left:3px solid var(--wads-danger,#c62d2d);border-radius:6px;">
 			<span style="color:var(--wads-danger,#c62d2d);font-size:15px;line-height:1.4;"><?php echo esc_html($icon); ?></span>

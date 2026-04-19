@@ -19,6 +19,8 @@
 		"php": ">=8.0",
 		"pwl/wp-admin-design-system": "^1.0"
 	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
 	"config": {
 		"optimize-autoloader": true
 	}

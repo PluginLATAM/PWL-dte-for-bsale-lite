@@ -17,6 +17,16 @@ use UserDOMP\WpAdminDS\Components;
  */
 class Settings extends BasePage
 {
+	/** Pro build + valid license (tabs, options, AJAX that are Pro-only). */
+	private function edition_has_pro_features_unlocked(): bool
+	{
+		if (PWL_DTE_EDITION !== "pro") {
+			return false;
+		}
+		return class_exists(\PwlDte\Integration\Pro\ProFeatures::class)
+			&& \PwlDte\Integration\Pro\ProFeatures::is_pro_license_active();
+	}
+
 	private array $option_groups = [
 		"connection" => "pwl_dte_settings_connection",
 		"documents"  => "pwl_dte_settings_documents",
@@ -33,14 +43,14 @@ class Settings extends BasePage
 		add_action("admin_post_pwl_dte_test_connection", [$this, "test_connection"]);
 		add_action("admin_enqueue_scripts", [$this, "enqueue_scripts"]);
 
-		if (PWL_DTE_EDITION === "pro") {
+		if ($this->edition_has_pro_features_unlocked()) {
 			add_action("wp_ajax_pwl_dte_get_offices", [$this, "ajax_get_offices"]);
 		}
 	}
 
 	public function enqueue_scripts(string $hook): void
 	{
-		if (!str_contains($hook, 'pwl-dte-for-bsale-settings') || PWL_DTE_EDITION !== 'pro') {
+		if (!str_contains($hook, 'pwl-dte-for-bsale-settings') || !$this->edition_has_pro_features_unlocked()) {
 			return;
 		}
 
@@ -54,11 +64,11 @@ class Settings extends BasePage
 		wp_localize_script('pwl-dte-for-bsale-settings', 'pwlDteSettings', [
 			'nonce'  => wp_create_nonce('pwl_dte_api_fetch'),
 			'labels' => [
-				'loading'         => __('Cargando...', 'pwl-dte-for-bsale'),
+				'loading'         => __('Loading…', 'pwl-dte-for-bsale'),
 				'errorPrefix'     => __('Error: ', 'pwl-dte-for-bsale'),
-				'unknownError'    => __('error desconocido', 'pwl-dte-for-bsale'),
-				'loaded'          => __('Sucursales cargadas.', 'pwl-dte-for-bsale'),
-				'connectionError' => __('Error de conexión.', 'pwl-dte-for-bsale'),
+				'unknownError'    => __('unknown error', 'pwl-dte-for-bsale'),
+				'loaded'          => __('Offices loaded.', 'pwl-dte-for-bsale'),
+				'connectionError' => __('Connection error.', 'pwl-dte-for-bsale'),
 			],
 		]);
 	}
@@ -83,7 +93,7 @@ class Settings extends BasePage
 		register_setting($g["documents"], "pwl_dte_price_list_id",    ["sanitize_callback" => "absint", "default" => ""]);
 
 		// ── Sync (cron + webhooks are Pro-only) ───────────────────────────────
-		if (PWL_DTE_EDITION === "pro") {
+		if ($this->edition_has_pro_features_unlocked()) {
 			register_setting($g["sync"], "pwl_dte_enable_stock_sync",   ["sanitize_callback" => [$this, "sanitize_checkbox"], "default" => "0"]);
 			register_setting($g["sync"], "pwl_dte_stock_sync_interval", ["sanitize_callback" => [$this, "sanitize_sync_interval"], "default" => "hourly"]);
 			register_setting($g["sync"], "pwl_dte_enable_webhooks",     ["sanitize_callback" => [$this, "sanitize_checkbox"], "default" => "0"]);
@@ -92,10 +102,11 @@ class Settings extends BasePage
 			// ── Offices ───────────────────────────────────────────────────────
 			register_setting($g["offices"], "pwl_dte_stock_office_id", ["sanitize_callback" => [$this, "sanitize_optional_office_id"], "default" => ""]);
 			register_setting($g["offices"], "pwl_dte_office_map",      ["sanitize_callback" => [$this, "sanitize_office_map"], "default" => "{}"]);
+
+			register_setting($g["advanced"], "pwl_dte_max_retries", ["sanitize_callback" => "absint", "default" => "3"]);
 		}
 
 		// ── Advanced ──────────────────────────────────────────────────────────
-		register_setting($g["advanced"], "pwl_dte_max_retries",  ["sanitize_callback" => "absint", "default" => "3"]);
 		register_setting($g["advanced"], "pwl_dte_api_timeout",  ["sanitize_callback" => "absint", "default" => "30"]);
 		register_setting($g["advanced"], "pwl_dte_log_level",    ["sanitize_callback" => [$this, "sanitize_log_level"], "default" => "errors"]);
 	}
@@ -108,8 +119,8 @@ class Settings extends BasePage
 	{
 		static $c = null;
 		return $c ??= [
-			"title"        => __("Configuración", "pwl-dte-for-bsale"),
-			"desc"         => __("Conexión, documentos y sincronización con Bsale", "pwl-dte-for-bsale"),
+			"title"        => __('Settings', 'pwl-dte-for-bsale'),
+			"desc"         => __('Connection, documents, and sync with Bsale', 'pwl-dte-for-bsale'),
 			"cap"          => "manage_options",
 			"token_alert"  => false,
 		];
@@ -122,7 +133,7 @@ class Settings extends BasePage
 		if (!array_key_exists($active_tab, $this->option_groups)) {
 			$active_tab = "connection";
 		}
-		if ($active_tab === "offices" && PWL_DTE_EDITION !== "pro") {
+		if ($active_tab === "offices" && !$this->edition_has_pro_features_unlocked()) {
 			$active_tab = "connection";
 		}
 		?>
@@ -146,7 +157,7 @@ class Settings extends BasePage
 			};
 			?>
 			<div style="margin-top:24px;">
-				<?php BasePage::echo_component(Components::button(__("Guardar configuración", "pwl-dte-for-bsale"), "primary", ["type" => "submit"])); ?>
+				<?php BasePage::echo_component(Components::button(__('Save settings', 'pwl-dte-for-bsale'), "primary", ["type" => "submit"])); ?>
 			</div>
 		</form>
 		<?php
@@ -159,15 +170,15 @@ class Settings extends BasePage
 	private function render_tabs(string $active): void
 	{
 		$tabs = [
-			"connection" => __("Conexión", "pwl-dte-for-bsale"),
-			"documents"  => __("Documentos", "pwl-dte-for-bsale"),
-			"sync"       => __("Sincronización", "pwl-dte-for-bsale"),
-			"advanced"   => __("Avanzado", "pwl-dte-for-bsale"),
+			"connection" => __('Connection', 'pwl-dte-for-bsale'),
+			"documents"  => __('Documents', 'pwl-dte-for-bsale'),
+			"sync"       => __('Sync', 'pwl-dte-for-bsale'),
+			"advanced"   => __('Advanced', 'pwl-dte-for-bsale'),
 		];
 
-		if (PWL_DTE_EDITION === "pro") {
+		if ($this->edition_has_pro_features_unlocked()) {
 			$tabs = array_slice($tabs, 0, 3, true)
-				+ ["offices" => __("Sucursales", "pwl-dte-for-bsale")]
+				+ ["offices" => __('Offices', 'pwl-dte-for-bsale')]
 				+ array_slice($tabs, 3, null, true);
 		}
 
@@ -187,27 +198,27 @@ class Settings extends BasePage
 		$token  = get_option("pwl_dte_api_token", "");
 		$office = get_option("pwl_dte_office_id", "1");
 
-		$test_row = Components::button(__("Probar conexión", "pwl-dte-for-bsale"), "secondary", ["attrs" => ["id" => "pwl-dte-for-bsale-test-connection"]])
+		$test_row = Components::button(__('Test connection', 'pwl-dte-for-bsale'), "secondary", ["attrs" => ["id" => "pwl-dte-for-bsale-test-connection"]])
 			. '<div id="connection-test-result" style="margin-top:8px;"></div>'
 			. wp_nonce_field("pwl_dte_test_connection", "test_connection_nonce", true, false);
 
 		BasePage::echo_component(Components::settings_section([
-			"title" => __("API Bsale", "pwl-dte-for-bsale"),
-			"desc"  => __("Credenciales para conectar con la cuenta de Bsale.", "pwl-dte-for-bsale"),
+			"title" => __('Bsale API', 'pwl-dte-for-bsale'),
+			"desc"  => __('Credentials to connect to your Bsale account.', 'pwl-dte-for-bsale'),
 			"rows"  => [
 				[
-					"label"    => __("API Token", "pwl-dte-for-bsale"),
-					"desc"     => __("Bsale → Configuración → Integraciones → API Access Token", "pwl-dte-for-bsale"),
+					"label"    => __('API Token', 'pwl-dte-for-bsale'),
+					"desc"     => __('Bsale → Settings → Integrations → API Access Token', 'pwl-dte-for-bsale'),
 					"required" => true,
 					"control"  => Components::input("pwl_dte_api_token", ["type" => "password", "value" => $token, "attrs" => ["autocomplete" => "new-password"]]),
 				],
 				[
 					"label"   => __("Office ID", "pwl-dte-for-bsale"),
-					"desc"    => __("ID de la sucursal en Bsale (generalmente 1)", "pwl-dte-for-bsale"),
+					"desc"    => __('Bsale office ID (usually 1)', 'pwl-dte-for-bsale'),
 					"control" => Components::input("pwl_dte_office_id", ["type" => "number", "value" => $office, "attrs" => ["min" => "1"]]),
 				],
 				[
-					"label"   => __("Test de conexión", "pwl-dte-for-bsale"),
+					"label"   => __('Connection test', 'pwl-dte-for-bsale'),
 					"control" => $test_row,
 				],
 			],
@@ -224,28 +235,28 @@ class Settings extends BasePage
 
 		$doc_type_control = '<label style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'
 			. '<input type="radio" name="pwl_dte_default_doc_type" value="boleta"' . checked($doc_type, "boleta", false) . '>'
-			. esc_html__("Boleta", "pwl-dte-for-bsale") . '</label>'
+			. esc_html__('Boleta (receipt)', 'pwl-dte-for-bsale') . '</label>'
 			. '<label style="display:flex;align-items:center;gap:8px;">'
 			. '<input type="radio" name="pwl_dte_default_doc_type" value="factura"' . checked($doc_type, "factura", false) . '>'
-			. esc_html__("Factura", "pwl-dte-for-bsale") . '</label>';
+			. esc_html__('Factura (invoice)', 'pwl-dte-for-bsale') . '</label>';
 
-		$auto_control = Components::checkbox("pwl_dte_auto_declare_sii", __("Declarar al SII automáticamente", "pwl-dte-for-bsale"), ["checked" => $declare_sii === "1", "hint" => __("Bsale declara el documento ante el SII al generarlo.", "pwl-dte-for-bsale")])
-			. Components::checkbox("pwl_dte_auto_send_email",  __("Enviar por email automáticamente", "pwl-dte-for-bsale"),   ["checked" => $send_email === "1",    "hint" => __("Bsale envía el DTE al email del cliente al generarlo.", "pwl-dte-for-bsale")])
-			. Components::checkbox("pwl_dte_auto_dispatch",    __("Descontar stock al emitir", "pwl-dte-for-bsale"),           ["checked" => $auto_dispatch === "1", "hint" => __("Descuenta el stock en Bsale al emitir el documento.", "pwl-dte-for-bsale")]);
+		$auto_control = Components::checkbox("pwl_dte_auto_declare_sii", __('Declare to SII automatically', 'pwl-dte-for-bsale'), ["checked" => $declare_sii === "1", "hint" => __('Bsale declares the document to the SII when it is issued.', 'pwl-dte-for-bsale')])
+			. Components::checkbox("pwl_dte_auto_send_email",  __('Send by email automatically', 'pwl-dte-for-bsale'),   ["checked" => $send_email === "1",    "hint" => __('Bsale emails the DTE to the customer when it is issued.', 'pwl-dte-for-bsale')])
+			. Components::checkbox("pwl_dte_auto_dispatch",    __('Deduct stock when issuing', 'pwl-dte-for-bsale'),           ["checked" => $auto_dispatch === "1", "hint" => __('Deducts stock in Bsale when the document is issued.', 'pwl-dte-for-bsale')]);
 
-		$price_list_opts = ["" => __("-- Seleccionar --", "pwl-dte-for-bsale")];
+		$price_list_opts = ["" => __('-- Select --', 'pwl-dte-for-bsale')];
 		if (!empty($price_list)) {
 			/* translators: %s: price list ID number */
-			$price_list_opts[$price_list] = sprintf(__("Lista #%s (clic para recargar)", "pwl-dte-for-bsale"), $price_list);
+			$price_list_opts[$price_list] = sprintf(__('List #%s (click to reload)', 'pwl-dte-for-bsale'), $price_list);
 		}
 
 		BasePage::echo_component(Components::settings_section([
-			"title" => __("Documentos tributarios", "pwl-dte-for-bsale"),
-			"desc"  => __("Configura cómo se generan las boletas y facturas electrónicas.", "pwl-dte-for-bsale"),
+			"title" => __('Tax documents', 'pwl-dte-for-bsale'),
+			"desc"  => __('Configure how boletas and electronic invoices are generated.', 'pwl-dte-for-bsale'),
 			"rows"  => [
-				["label" => __("Tipo de documento", "pwl-dte-for-bsale"), "desc" => __("Tipo por defecto cuando el cliente no solicita factura.", "pwl-dte-for-bsale"), "control" => $doc_type_control],
-				["label" => __("Opciones automáticas", "pwl-dte-for-bsale"), "control" => $auto_control],
-				["label" => __("Lista de precios", "pwl-dte-for-bsale"), "desc" => __("Se cargará automáticamente al hacer clic.", "pwl-dte-for-bsale"), "control" => Components::select("pwl_dte_price_list_id", $price_list_opts, ["selected" => $price_list])],
+				["label" => __('Document type', 'pwl-dte-for-bsale'), "desc" => __('Default type when the customer does not request an invoice.', 'pwl-dte-for-bsale'), "control" => $doc_type_control],
+				["label" => __('Automatic options', 'pwl-dte-for-bsale'), "control" => $auto_control],
+				["label" => __('Price list', 'pwl-dte-for-bsale'), "desc" => __('Loaded automatically when you click.', 'pwl-dte-for-bsale'), "control" => Components::select("pwl_dte_price_list_id", $price_list_opts, ["selected" => $price_list])],
 			],
 		]));
 	}
@@ -255,67 +266,79 @@ class Settings extends BasePage
 		$last_sync = get_option("pwl_dte_last_stock_sync");
 		$rows      = [];
 
-		if (PWL_DTE_EDITION === "pro") {
+		if ($this->edition_has_pro_features_unlocked()) {
 			$enable_sync = get_option("pwl_dte_enable_stock_sync", "0");
 			$interval    = get_option("pwl_dte_stock_sync_interval", "hourly");
 
-			$rows[] = ["label" => __("Sincronización de stock", "pwl-dte-for-bsale"), "control" => Components::checkbox("pwl_dte_enable_stock_sync", __("Habilitar sincronización automática", "pwl-dte-for-bsale"), ["checked" => $enable_sync === "1"])];
-			$rows[] = ["label" => __("Intervalo", "pwl-dte-for-bsale"), "control" => Components::select("pwl_dte_stock_sync_interval", [
-				"hourly"     => __("Cada hora", "pwl-dte-for-bsale"),
-				"twicedaily" => __("Dos veces al día", "pwl-dte-for-bsale"),
-				"daily"      => __("Una vez al día", "pwl-dte-for-bsale"),
+			$rows[] = ["label" => __('Stock sync', 'pwl-dte-for-bsale'), "control" => Components::checkbox("pwl_dte_enable_stock_sync", __('Enable automatic synchronization', 'pwl-dte-for-bsale'), ["checked" => $enable_sync === "1"])];
+			$rows[] = ["label" => __('Interval', 'pwl-dte-for-bsale'), "control" => Components::select("pwl_dte_stock_sync_interval", [
+				"hourly"     => __('Every hour', 'pwl-dte-for-bsale'),
+				"twicedaily" => __('Twice a day', 'pwl-dte-for-bsale'),
+				"daily"      => __('Once a day', 'pwl-dte-for-bsale'),
 			], ["selected" => $interval])];
+		} elseif (PWL_DTE_EDITION === "pro") {
+			$license_url = class_exists(\PwlDte\Integration\Pro\LicenseClient::class)
+				? admin_url('admin.php?page=' . \PwlDte\Integration\Pro\LicenseClient::license_admin_page_slug())
+				: admin_url('admin.php');
+			$rows[] = [
+				"label"   => __('Pro sync & webhooks', 'pwl-dte-for-bsale'),
+				"control" => '<p class="description" style="margin:0;">'
+					. esc_html__('Activate your Pro license to enable scheduled stock sync, Bsale webhooks, and related settings.', 'pwl-dte-for-bsale')
+					. ' <a href="' . esc_url($license_url) . '">'
+					. esc_html__('Open License', 'pwl-dte-for-bsale')
+					. '</a></p>',
+			];
 		}
 
-		$last_sync_text = $last_sync ? wp_date("Y-m-d H:i:s", $last_sync) : __("Nunca", "pwl-dte-for-bsale");
+		$last_sync_text = $last_sync ? wp_date("Y-m-d H:i:s", $last_sync) : __('Never', 'pwl-dte-for-bsale');
 		$rows[] = [
-			"label"   => __("Sincronización manual", "pwl-dte-for-bsale"),
-			"desc"    => __("Puede tardar varios minutos con catálogos grandes.", "pwl-dte-for-bsale"),
+			"label"   => __('Manual sync', 'pwl-dte-for-bsale'),
+			"desc"    => __('May take several minutes with large catalogs.', 'pwl-dte-for-bsale'),
 			"control" => '<p id="last-sync-display" style="margin:0 0 8px;">' . esc_html($last_sync_text) . '</p>'
-				. Components::button(__("Sincronizar Ahora", "pwl-dte-for-bsale"), "secondary", ["attrs" => ["id" => "pwl-dte-for-bsale-manual-sync"]])
+				. Components::button(__('Sync now', 'pwl-dte-for-bsale'), "secondary", ["attrs" => ["id" => "pwl-dte-for-bsale-manual-sync"]])
 				. '<div id="pwl-dte-for-bsale-sync-progress" style="display:none;margin-top:12px;">'
 				. '<div class="wads-progress" style="margin-bottom:4px;"><div id="pwl-dte-for-bsale-sync-bar" class="wads-progress__bar" style="width:0%;"></div></div>'
 				. '<p id="pwl-dte-for-bsale-sync-status" style="margin:0;font-size:13px;color:#555;"></p>'
 				. '</div>',
 		];
 
-		if (PWL_DTE_EDITION === "pro") {
+		if ($this->edition_has_pro_features_unlocked()) {
 			$webhooks    = get_option("pwl_dte_enable_webhooks", "0");
 			$secret      = get_option("pwl_dte_webhook_secret", "");
 			$webhook_url = rest_url("pwl-dte/v1/webhook");
 
-			$rows[] = ["label" => __("Webhooks", "pwl-dte-for-bsale"), "control" => Components::checkbox("pwl_dte_enable_webhooks", __("Habilitar webhooks de Bsale", "pwl-dte-for-bsale"), ["checked" => $webhooks === "1"])];
+			$rows[] = ["label" => __('Webhooks', 'pwl-dte-for-bsale'), "control" => Components::checkbox("pwl_dte_enable_webhooks", __('Enable Bsale webhooks', 'pwl-dte-for-bsale'), ["checked" => $webhooks === "1"])];
 			$rows[] = [
-				"label"   => __("Webhook Secret", "pwl-dte-for-bsale"),
+				"label"   => __('Webhook Secret', 'pwl-dte-for-bsale'),
 				"control" => Components::input("pwl_dte_webhook_secret", ["value" => $secret, "attrs" => ["readonly" => "readonly", "id" => "pwl_dte_webhook_secret"]])
-					. ' ' . Components::button(__("Regenerar", "pwl-dte-for-bsale"), "ghost", ["size" => "sm", "attrs" => ["id" => "pwl-dte-for-bsale-regenerate-secret"]]),
+					. ' ' . Components::button(__('Regenerate', 'pwl-dte-for-bsale'), "ghost", ["size" => "sm", "attrs" => ["id" => "pwl-dte-for-bsale-regenerate-secret"]]),
 			];
 			$rows[] = [
-				"label"   => __("Webhook URL", "pwl-dte-for-bsale"),
+				"label"   => __('Webhook URL', 'pwl-dte-for-bsale'),
 				"desc"    => sprintf(
 					/* translators: %s: URL to the webhook debug page */
-					wp_kses(__('Configura en Bsale → Webhooks. Ver la <a href="%s">página de debug</a>.', "pwl-dte-for-bsale"), ["a" => ["href" => []]]),
+					wp_kses(__('Configure in Bsale → Webhooks. See the <a href="%s">debug page</a>.', 'pwl-dte-for-bsale'), ["a" => ["href" => []]]),
 					esc_url(admin_url("admin.php?page=pwl-dte-for-bsale-webhook-debug")),
 				),
 				"control" => Components::input("webhook_url_display", ["value" => $webhook_url, "attrs" => ["id" => "webhook-url-display", "readonly" => "readonly"]])
-					. ' ' . Components::button(__("Copiar", "pwl-dte-for-bsale"), "ghost", ["size" => "sm", "attrs" => ["id" => "copy-webhook-url"]]),
+					. ' ' . Components::button(__('Copy', 'pwl-dte-for-bsale'), "ghost", ["size" => "sm", "attrs" => ["id" => "copy-webhook-url"]]),
 			];
 		}
 
 		BasePage::echo_component(Components::settings_section([
-			"title" => __("Sincronización de stock", "pwl-dte-for-bsale"),
+			"title" => __('Stock sync', 'pwl-dte-for-bsale'),
 			"rows"  => $rows,
 		]));
 
 		if (PWL_DTE_EDITION !== "pro") {
 			$link = '<a href="' . esc_url(PWL_DTE_PRO_URL) . '" target="_blank">'
-				. esc_html__("Ver PWL DTE Pro →", "pwl-dte-for-bsale")
+				. esc_html__('View PWL DTE Pro →', 'pwl-dte-for-bsale')
 				. "</a>";
 			BasePage::echo_component(Components::callout(
-				__("Sincronización avanzada disponible en Pro", "pwl-dte-for-bsale"),
+				__('Advanced sync available in Pro', 'pwl-dte-for-bsale'),
 				"info",
 				wp_kses(
-					__("La versión Pro incluye sync automático por cron, webhooks en tiempo real y sucursal dedicada para stock. ", "pwl-dte-for-bsale"), // . $link,
+					__('The Pro edition adds cron stock sync, real-time webhooks, and a dedicated stock office.', 'pwl-dte-for-bsale'),
 					["a" => ["href" => [], "target" => []]],
 				),
 			));
@@ -324,29 +347,34 @@ class Settings extends BasePage
 
 	private function render_advanced_tab(): void
 	{
+		$rows = [];
+
+		if ($this->edition_has_pro_features_unlocked()) {
+			$rows[] = [
+				"label"   => __('Automatic retries', 'pwl-dte-for-bsale'),
+				"desc"    => __('Maximum attempts for the scheduled DTE retry job (0 disables automatic retries, 1–10).', 'pwl-dte-for-bsale'),
+				"control" => Components::input("pwl_dte_max_retries", ["type" => "number", "value" => get_option("pwl_dte_max_retries", "3"), "attrs" => ["min" => "0", "max" => "10"]]),
+			];
+		}
+
+		$rows[] = [
+			"label"   => __('API timeout (seconds)', 'pwl-dte-for-bsale'),
+			"desc"    => __('Maximum wait time for Bsale API responses (5–120).', 'pwl-dte-for-bsale'),
+			"control" => Components::input("pwl_dte_api_timeout", ["type" => "number", "value" => get_option("pwl_dte_api_timeout", "30"), "attrs" => ["min" => "5", "max" => "120"]]),
+		];
+		$rows[] = [
+			"label"   => __('Log level', 'pwl-dte-for-bsale'),
+			"control" => Components::select("pwl_dte_log_level", [
+				"none"   => __('None', 'pwl-dte-for-bsale'),
+				"errors" => __('Errors only', 'pwl-dte-for-bsale'),
+				"info"   => __('Information', 'pwl-dte-for-bsale'),
+				"debug"  => __('Debug', 'pwl-dte-for-bsale'),
+			], ["selected" => get_option("pwl_dte_log_level", "errors")]),
+		];
+
 		BasePage::echo_component(Components::settings_section([
-			"title" => __("Configuración avanzada", "pwl-dte-for-bsale"),
-			"rows"  => [
-				[
-					"label"   => __("Reintentos automáticos", "pwl-dte-for-bsale"),
-					"desc"    => __("Número de reintentos si la generación del DTE falla (0-10).", "pwl-dte-for-bsale"),
-					"control" => Components::input("pwl_dte_max_retries", ["type" => "number", "value" => get_option("pwl_dte_max_retries", "3"), "attrs" => ["min" => "0", "max" => "10"]]),
-				],
-				[
-					"label"   => __("Timeout de API (segundos)", "pwl-dte-for-bsale"),
-					"desc"    => __("Tiempo máximo de espera para respuestas de la API de Bsale (5-120).", "pwl-dte-for-bsale"),
-					"control" => Components::input("pwl_dte_api_timeout", ["type" => "number", "value" => get_option("pwl_dte_api_timeout", "30"), "attrs" => ["min" => "5", "max" => "120"]]),
-				],
-				[
-					"label"   => __("Nivel de logs", "pwl-dte-for-bsale"),
-					"control" => Components::select("pwl_dte_log_level", [
-						"none"   => __("Ninguno", "pwl-dte-for-bsale"),
-						"errors" => __("Solo errores", "pwl-dte-for-bsale"),
-						"info"   => __("Información", "pwl-dte-for-bsale"),
-						"debug"  => __("Debug", "pwl-dte-for-bsale"),
-					], ["selected" => get_option("pwl_dte_log_level", "errors")]),
-				],
-			],
+			"title" => __('Advanced settings', 'pwl-dte-for-bsale'),
+			"rows"  => $rows,
 		]));
 	}
 
@@ -356,32 +384,32 @@ class Settings extends BasePage
 		$map               = json_decode(get_option("pwl_dte_office_map", "{}"), true) ?: [];
 		$default_office_id = get_option("pwl_dte_office_id", "1");
 		/* translators: %s: office ID number */
-		$default_label = sprintf(__("-- Igual que Conexión (sucursal #%s) --", "pwl-dte-for-bsale"), $default_office_id);
+		$default_label = sprintf(__('-- Same as Connection (office #%s) --', 'pwl-dte-for-bsale'), $default_office_id);
 
 		$wc_methods = (function_exists("WC") && WC()->shipping()) ? WC()->shipping()->get_shipping_methods() : [];
 
 		$method_descriptions = [
-			"flat_rate"       => __("Tarifa fija (despacho a domicilio)", "pwl-dte-for-bsale"),
-			"free_shipping"   => __("Envío gratis", "pwl-dte-for-bsale"),
-			"local_pickup"    => __("Retiro en tienda (método clásico)", "pwl-dte-for-bsale"),
-			"pickup_location" => __("Retiro en tienda con selección de local (WC 8.x+)", "pwl-dte-for-bsale"),
+			"flat_rate"       => __('Flat rate (home delivery)', 'pwl-dte-for-bsale'),
+			"free_shipping"   => __('Free shipping', 'pwl-dte-for-bsale'),
+			"local_pickup"    => __('Local pickup (classic method)', 'pwl-dte-for-bsale'),
+			"pickup_location" => __('Local pickup with location selection (WC 8.x+)', 'pwl-dte-for-bsale'),
 		];
 
 		BasePage::echo_component(Components::callout(
-			__("Multi-sucursal", "pwl-dte-for-bsale"),
+			__('Multi-office', 'pwl-dte-for-bsale'),
 			"info",
-			__("Si solo tienes una sucursal no necesitas configurar nada aquí. Usa esta pantalla cuando tu negocio tiene una bodega de despacho y una tienda física en Bsale.", "pwl-dte-for-bsale"),
+			__('If you only have one office you do not need to configure anything here. Use this screen when you have a warehouse and a retail store in Bsale.', 'pwl-dte-for-bsale'),
 		));
 		?>
 		<div style="margin-bottom:16px;">
-			<?php BasePage::echo_component(Components::button(__("Cargar sucursales desde Bsale", "pwl-dte-for-bsale"), "secondary", ["attrs" => ["id" => "pwl-dte-for-bsale-load-offices"]])); ?>
+			<?php BasePage::echo_component(Components::button(__('Load offices from Bsale', 'pwl-dte-for-bsale'), "secondary", ["attrs" => ["id" => "pwl-dte-for-bsale-load-offices"]])); ?>
 			<span id="pwl-dte-for-bsale-offices-status" style="margin-left:10px;color:#666;"></span>
 		</div>
 
 		<table class="form-table">
 			<tr>
 				<th>
-					<label for="pwl_dte_stock_office_id"><?php esc_html_e("Sucursal para stock", "pwl-dte-for-bsale"); ?></label>
+					<label for="pwl_dte_stock_office_id"><?php esc_html_e('Office for stock', 'pwl-dte-for-bsale'); ?></label>
 				</th>
 				<td>
 					<select id="pwl_dte_stock_office_id" name="pwl_dte_stock_office_id" class="pwl-dte-for-bsale-office-select">
@@ -390,23 +418,23 @@ class Settings extends BasePage
 							<option value="<?php echo esc_attr($stock_office); ?>" selected>
 								<?php
 								/* translators: %s: office ID number */
-								printf(esc_html__("Sucursal #%s", "pwl-dte-for-bsale"), esc_html($stock_office));
+								printf(esc_html__('Office #%s', 'pwl-dte-for-bsale'), esc_html($stock_office));
 								?>
 							</option>
 						<?php endif; ?>
 					</select>
-					<p class="description"><?php esc_html_e("Sucursal de Bsale desde la que se consulta el stock disponible en WooCommerce. Configura aquí tu bodega principal si es distinta a la que emite los documentos.", "pwl-dte-for-bsale"); ?></p>
+					<p class="description"><?php esc_html_e('Bsale office used to read stock for WooCommerce. Set your main warehouse here if it differs from the issuing office.', 'pwl-dte-for-bsale'); ?></p>
 				</td>
 			</tr>
 
 			<?php if (!empty($wc_methods)): ?>
 			<tr>
 				<th colspan="2">
-					<h3 style="margin:0;"><?php esc_html_e("Sucursal para DTE según método de envío", "pwl-dte-for-bsale"); ?></h3>
+					<h3 style="margin:0;"><?php esc_html_e('DTE office by shipping method', 'pwl-dte-for-bsale'); ?></h3>
 					<p style="font-weight:normal;margin-top:4px;color:#666;">
 						<?php printf(
 							/* translators: %s: office ID */
-							esc_html__("Elige desde qué sucursal se emite el DTE según cómo despachó la orden. Si no seleccionas nada, se usará la sucursal #%s (configurada en el tab Conexión).", "pwl-dte-for-bsale"),
+							esc_html__('Choose which office issues the DTE based on how the order was fulfilled. If unset, office #%s (from the Connection tab) is used.', 'pwl-dte-for-bsale'),
 							esc_html($default_office_id),
 						); ?>
 					</p>
@@ -435,7 +463,7 @@ class Settings extends BasePage
 							<option value="<?php echo esc_attr($map[$method_id]); ?>" selected>
 								<?php
 								/* translators: %s: office ID number */
-								printf(esc_html__("Sucursal #%s", "pwl-dte-for-bsale"), esc_html($map[$method_id]));
+								printf(esc_html__('Office #%s', 'pwl-dte-for-bsale'), esc_html($map[$method_id]));
 								?>
 							</option>
 						<?php endif; ?>
@@ -458,14 +486,14 @@ class Settings extends BasePage
 		check_admin_referer("pwl_dte_test_connection", "test_connection_nonce");
 
 		if (!current_user_can("manage_options")) {
-			wp_die(esc_html__("No autorizado.", "pwl-dte-for-bsale"));
+			wp_die(esc_html__('Not authorized.', 'pwl-dte-for-bsale'));
 		}
 
 		$token = get_option("pwl_dte_api_token", "");
 
 		if (empty($token)) {
 			wp_safe_redirect(add_query_arg(
-				["page" => $this->page_slug, "tab" => "connection", "connection_test" => "error", "message" => urlencode(__("Debes configurar un API Token primero", "pwl-dte-for-bsale"))],
+				["page" => $this->page_slug, "tab" => "connection", "connection_test" => "error", "message" => urlencode(__('Configure an API token first', 'pwl-dte-for-bsale'))],
 				admin_url("admin.php"),
 			));
 			exit();
@@ -474,8 +502,8 @@ class Settings extends BasePage
 		$client  = new \PwlDte\Api\BsaleClient($token);
 		$result  = $client->test_connection();
 		$message = $result["success"]
-			? __("Conexión exitosa con Bsale", "pwl-dte-for-bsale")
-			: ($result["error"] ?? __("Error desconocido", "pwl-dte-for-bsale"));
+			? __('Successfully connected to Bsale', 'pwl-dte-for-bsale')
+			: ($result["error"] ?? __('Unknown error', 'pwl-dte-for-bsale'));
 
 		wp_safe_redirect(add_query_arg(
 			["page" => $this->page_slug, "tab" => "connection", "connection_test" => $result["success"] ? "success" : "error", "message" => urlencode($message)],
@@ -510,7 +538,11 @@ class Settings extends BasePage
 		check_ajax_referer("pwl_dte_api_fetch", "nonce");
 
 		if (!current_user_can("manage_options")) {
-			wp_send_json_error(["message" => __("No autorizado", "pwl-dte-for-bsale")], 403);
+			wp_send_json_error(["message" => __('Not authorized', 'pwl-dte-for-bsale')], 403);
+		}
+
+		if (!$this->edition_has_pro_features_unlocked()) {
+			wp_send_json_error(["message" => __('A valid Pro license is required for this action.', 'pwl-dte-for-bsale')], 403);
 		}
 
 		$cached = get_transient("pwl_dte_offices_cache");
@@ -522,7 +554,7 @@ class Settings extends BasePage
 		$result = (new \PwlDte\Api\BsaleClient(get_option("pwl_dte_api_token", "")))->get_offices();
 
 		if (!$result["success"]) {
-			wp_send_json_error(["message" => $result["error"] ?? __("Error al obtener sucursales", "pwl-dte-for-bsale")]);
+			wp_send_json_error(["message" => $result["error"] ?? __('Could not load offices', 'pwl-dte-for-bsale')]);
 			return;
 		}
 

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108
+class ComposerStaticInit8bdaab5d6559599c365d7b55ca481e06
 {
     public static $prefixLengthsPsr4 = array (
         'U' => 
@@ -14,6 +14,7 @@ class ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108
         'P' => 
         array (
             'PwlDte\\' => 7,
+            'PWL\\LicenseClient\\' => 18,
         ),
     );
 
@@ -25,6 +26,9 @@ class ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108
         'PwlDte\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'PWL\\LicenseClient\\' => 
+        array (
         ),
     );
 
@@ -47,6 +51,9 @@ class ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108
         'PwlDte\\Integration\\DocumentEngine' => __DIR__ . '/../..' . '/src/Integration/DocumentEngine.php',
         'PwlDte\\Integration\\Pro\\CreditNoteEngine' => __DIR__ . '/../..' . '/src/Integration/Pro/CreditNoteEngine.php',
         'PwlDte\\Integration\\Pro\\DocumentEngine' => __DIR__ . '/../..' . '/src/Integration/Pro/DocumentEngine.php',
+        'PwlDte\\Integration\\Pro\\LicenseBootstrap' => __DIR__ . '/../..' . '/src/Integration/Pro/LicenseBootstrap.php',
+        'PwlDte\\Integration\\Pro\\LicenseClient' => __DIR__ . '/../..' . '/src/Integration/Pro/LicenseClient.php',
+        'PwlDte\\Integration\\Pro\\ProFeatures' => __DIR__ . '/../..' . '/src/Integration/Pro/ProFeatures.php',
         'PwlDte\\Integration\\Pro\\ProductImporter' => __DIR__ . '/../..' . '/src/Integration/Pro/ProductImporter.php',
         'PwlDte\\Integration\\Pro\\StockSync' => __DIR__ . '/../..' . '/src/Integration/Pro/StockSync.php',
         'PwlDte\\Integration\\Pro\\WebhookHandler' => __DIR__ . '/../..' . '/src/Integration/Pro/WebhookHandler.php',
@@ -58,9 +65,9 @@ class ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit0dc9f294eedf12d3e7c261bc99bb0108::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit8bdaab5d6559599c365d7b55ca481e06::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit8bdaab5d6559599c365d7b55ca481e06::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit8bdaab5d6559599c365d7b55ca481e06::$classMap;
 
         }, null, ClassLoader::class);
     }
