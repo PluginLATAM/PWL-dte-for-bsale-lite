@@ -321,7 +321,6 @@ class Admin
 
 	private function render_pro_upgrade_card(): void
 	{
-		$url      = esc_url(PWL_DTE_PRO_URL);
 		$badge    = esc_html__("Pro", "pwl-dte-for-bsale");
 		$title    = esc_html__('Power your invoicing with PWL DTE Pro', 'pwl-dte-for-bsale');
 		$features = [
@@ -339,18 +338,34 @@ class Admin
 				. "</li>",
 			$features,
 		));
-		$cta      = esc_html__('View PWL DTE Pro →', 'pwl-dte-for-bsale');
+		$cta_hint = esc_html__(
+			'Paid plans and free trials — our store opens in a new tab.',
+			'pwl-dte-for-bsale',
+		);
 		?>
 		<div class="wads-card" style="margin-top:24px;border:2px solid var(--wads-accent,#7c5c3b);">
 			<div class="wads-card__header" style="display:flex;align-items:center;gap:10px;">
 				<span class="wads-badge wads-badge--solid-accent"><?php echo esc_html($badge); ?></span>
 				<h3 style="margin:0;font-size:15px;"><?php echo esc_html($title); ?></h3>
 			</div>
-			<div class="wads-card__body" style="display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;">
+			<div class="wads-card__body" style="display:flex;flex-direction:column;gap:16px;">
 				<ul style="margin:0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:8px 32px;">
 					<?php echo wp_kses_post($items); ?>
 				</ul>
-				<!-- <a href="<?php echo esc_url($url); ?>" target="_blank" class="wads-btn wads-btn--primary"><?php echo esc_html($cta); ?></a> -->
+				<div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid var(--wads-border,#e8e4df);">
+					<p style="margin:0;font-size:12px;line-height:1.45;color:var(--wads-muted,#6b6560);max-width:440px;"><?php echo esc_html($cta_hint); ?></p>
+					<?php BasePage::echo_component(\UserDOMP\WpAdminDS\Components::button(
+						__('View plans & subscribe', 'pwl-dte-for-bsale'),
+						'primary',
+						[
+							'href' => PWL_DTE_PRO_URL,
+							'attrs' => [
+								'target' => '_blank',
+								'rel'    => 'noopener noreferrer',
+							],
+						],
+					)); ?>
+				</div>
 			</div>
 		</div>
 		<?php

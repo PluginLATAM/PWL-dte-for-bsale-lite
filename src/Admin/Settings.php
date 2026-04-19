@@ -331,15 +331,19 @@ class Settings extends BasePage
 		]));
 
 		if (PWL_DTE_EDITION !== "pro") {
-			$link = '<a href="' . esc_url(PWL_DTE_PRO_URL) . '" target="_blank">'
-				. esc_html__('View PWL DTE Pro →', 'pwl-dte-for-bsale')
+			$link = '<a href="' . esc_url(PWL_DTE_PRO_URL) . '" target="_blank" rel="noopener noreferrer">'
+				. esc_html__('View plans & subscribe', 'pwl-dte-for-bsale')
 				. "</a>";
 			BasePage::echo_component(Components::callout(
 				__('Advanced sync available in Pro', 'pwl-dte-for-bsale'),
 				"info",
 				wp_kses(
-					__('The Pro edition adds cron stock sync, real-time webhooks, and a dedicated stock office.', 'pwl-dte-for-bsale'),
-					["a" => ["href" => [], "target" => []]],
+					sprintf(
+						/* translators: %s: anchor link to the Pro product page (plans, purchase, trials). */
+						__('The Pro edition adds cron stock sync, real-time webhooks, and a dedicated stock office. %s', 'pwl-dte-for-bsale'),
+						$link,
+					),
+					["a" => ["href" => [], "target" => [], "rel" => []]],
 				),
 			));
 		}

@@ -228,9 +228,13 @@ msgstr ""
 msgid "Product importer from Bsale"
 msgstr ""
 
-#: src/Admin/Admin.php:315
-#: src/Admin/Settings.php:312
-msgid "View PWL DTE Pro →"
+#: src/Admin/Admin.php
+msgid "Paid plans and free trials — our store opens in a new tab."
+msgstr ""
+
+#: src/Admin/Admin.php
+#: src/Admin/Settings.php
+msgid "View plans & subscribe"
 msgstr ""
 
 #: src/Admin/Admin.php:342
@@ -634,8 +638,9 @@ msgstr ""
 msgid "Advanced sync available in Pro"
 msgstr ""
 
-#: src/Admin/Settings.php:318
-msgid "The Pro edition adds cron stock sync, real-time webhooks, and a dedicated stock office."
+#: src/Admin/Settings.php
+#, php-format
+msgid "The Pro edition adds cron stock sync, real-time webhooks, and a dedicated stock office. %s"
 msgstr ""
 
 #: src/Admin/Settings.php:328

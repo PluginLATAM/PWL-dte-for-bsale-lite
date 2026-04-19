@@ -217,9 +217,13 @@ msgstr "Reintento automático de DTE fallidos"
 msgid "Product importer from Bsale"
 msgstr "Importador de productos desde Bsale"
 
-#: src/Admin/Admin.php:315 src/Admin/Settings.php:312
-msgid "View PWL DTE Pro →"
-msgstr "Ver PWL DTE Pro →"
+#: src/Admin/Admin.php
+msgid "Paid plans and free trials — our store opens in a new tab."
+msgstr "Planes de pago y pruebas gratis: nuestra tienda se abre en otra pestaña."
+
+#: src/Admin/Admin.php src/Admin/Settings.php
+msgid "View plans & subscribe"
+msgstr "Ver planes y suscribirse"
 
 #: src/Admin/Admin.php:342
 msgid "Bsale DTE"
@@ -603,13 +607,14 @@ msgstr "Copiar"
 msgid "Advanced sync available in Pro"
 msgstr "Sincronización avanzada disponible en Pro"
 
-#: src/Admin/Settings.php:318
+#: src/Admin/Settings.php
+#, php-format
 msgid ""
 "The Pro edition adds cron stock sync, real-time webhooks, and a dedicated "
-"stock office."
+"stock office. %s"
 msgstr ""
 "La edición Pro agrega sincronización de stock por cron, webhooks en tiempo "
-"real y una sucursal dedicada de stock."
+"real y una sucursal dedicada de stock. %s"
 
 #: src/Admin/Settings.php:328
 msgid "Advanced settings"

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       PWL DTE for Bsale
- * Plugin URI:        https://github.com/PluginLATAM/PWL-dte-for-bsale-lite
+ * Plugin URI:        https://pluginwordpresslatam.cl/producto/bsale-dte/
  * Source Code:       https://github.com/PluginLATAM/PWL-dte-for-bsale-lite
  * Description:       Connect WooCommerce with Bsale for Chilean electronic invoicing (DTE).
  * Version:           2.1.0
@@ -9,7 +9,7 @@
  * Requires PHP:      8.0
  * Requires Plugins:  woocommerce
  * Author:            PluginLATAM
- * Author URI:        https://github.com/PluginLATAM
+ * Author URI:        https://pluginwordpresslatam.cl/
  * Text Domain:       pwl-dte-for-bsale
  * Domain Path:       /languages
  * License:           GPL-3.0-or-later
@@ -27,7 +27,7 @@ define('PWL_DTE_EDITION', 'lite'); // injected by build.js
 define('PWL_DTE_FILE',    __FILE__);
 define('PWL_DTE_DIR',     plugin_dir_path(__FILE__));
 define('PWL_DTE_URL',     plugin_dir_url(__FILE__));
-define('PWL_DTE_PRO_URL', 'https://github.com/PluginLATAM/PWL-dte-for-bsale-lite');
+define('PWL_DTE_PRO_URL', 'https://pluginwordpresslatam.cl/producto/bsale-dte/');
 
 // ── Conflict check: if both editions are active, user must resolve manually ──
 if (PWL_DTE_EDITION === 'pro') {
